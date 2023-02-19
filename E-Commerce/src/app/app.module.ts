@@ -17,6 +17,9 @@ import { RegisterComponent } from './register/register.component';
 import { SuggestedProductsComponent } from './suggested-products/suggested-products.component';
 import { OpenProductDetailsDirective } from './shared/directives/open-product-details.directive';
 import { OpenProductsDirective } from './shared/directives/open-products.directive';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -34,13 +37,16 @@ import { OpenProductsDirective } from './shared/directives/open-products.directi
     RegisterComponent,
     SuggestedProductsComponent,
     OpenProductDetailsDirective,
-    OpenProductsDirective
+    OpenProductsDirective,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
