@@ -1,4 +1,5 @@
-﻿using E_CommerceAPI.Models;
+﻿using E_CommerceAPI.Common;
+using E_CommerceAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,12 +11,12 @@ namespace E_CommerceAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly EcommerceContext _context;
-        private readonly string DateFormat;
+        private readonly string _dateFormat;
 
         public UserController(IConfiguration configuration)
         {
             _context = new EcommerceContext();
-            DateFormat = configuration["Constants:DateFormat"];
+            _dateFormat = configuration[Constants.DateFormat.DateFormatddd];
         }
         // POST: api/Register
         [HttpPost]
@@ -28,8 +29,8 @@ namespace E_CommerceAPI.Controllers
             }
             if (user != null)
             {
-                user.CreatedAt = DateTime.Now.ToString(DateFormat);
-                user.ModifiedAt = DateTime.Now.ToString(DateFormat);
+                user.CreatedAt = DateTime.Now.ToString(_dateFormat);
+                user.ModifiedAt = DateTime.Now.ToString(_dateFormat);
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
             }

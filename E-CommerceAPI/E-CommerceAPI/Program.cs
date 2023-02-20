@@ -1,3 +1,6 @@
+using E_CommerceAPI.Models;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add CORS

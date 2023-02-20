@@ -1,9 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '../models/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NavigationService {
+  baseUrl = 'http://localhost:5121/api/';
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
+
+  registerUser(user: User) {
+    console.log(user);
+    let url = this.baseUrl + 'User/Register';
+    return this.http.post(url, user, { responseType: 'text' });
+  }
 }
