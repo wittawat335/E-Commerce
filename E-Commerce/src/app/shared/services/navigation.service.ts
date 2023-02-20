@@ -12,7 +12,7 @@ export class NavigationService {
 
   registerUser(user: User) {
     console.log(user);
-    let url = this.baseUrl + 'Users/Register';
+    let url = this.baseUrl + 'User/Register';
     return this.http.post(url, user, { responseType: 'text' });
   }
 }
