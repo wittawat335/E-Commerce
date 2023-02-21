@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using E_CommerceAPI.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace E_CommerceAPI.Controllers
 {
@@ -24,10 +25,10 @@ namespace E_CommerceAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
+            if (_context.Products == null)
+            {
+                return NotFound();
+            }
             return await _context.Products.ToListAsync();
         }
 
@@ -47,6 +48,34 @@ namespace E_CommerceAPI.Controllers
             }
 
             return product;
+        }
+
+        // GET: api/Products/5
+        [HttpGet]
+        [Route("GetProductsByCategory")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string category, string subcategory,int count)
+        {
+            try
+            {
+                if (_context.Products == null)
+                {
+                    return NotFound();
+                }
+                //var result = _context.Products.FromSqlRaw($"SP_GetProducts {count}, {category}, {subcategory}").ToListAsync();
+                var categoryId = _context.ProductCategories.First(x => x.SubCategory == subcategory && x.Category == category).CategoryId;
+                var product = await _context.Products.Where(x => x.CategoryId == categoryId).Take(count).ToListAsync();
+         
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT: api/Products/5

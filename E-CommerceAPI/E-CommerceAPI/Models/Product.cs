@@ -1,5 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace E_CommerceAPI.Models;
 
@@ -20,7 +22,7 @@ public partial class Product
     public int Quantity { get; set; }
 
     public string ImageName { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual ProductCategory Category { get; set; } = null!;
 
     public virtual Offer Offer { get; set; } = null!;

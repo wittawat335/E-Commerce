@@ -30,7 +30,26 @@ export class HeaderComponent implements OnInit {
     public utService: UtilityService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Get Category List
+    this.navService.getCategoryList().subscribe((list: Category[]) => {
+      for (let item of list) {
+        let present = false;
+        for (let navItem of this.navigationList) {
+          if (navItem.category === item.category) {
+            navItem.subcategories.push(item.subCategory);
+            present = true;
+          }
+        }
+        if (!present) {
+          this.navigationList.push({
+            category: item.category,
+            subcategories: [item.subCategory],
+          });
+        }
+      }
+    });
+  }
 
   openModal(name: string) {
     this.container.clear();

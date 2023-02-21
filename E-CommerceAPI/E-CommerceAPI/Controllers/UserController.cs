@@ -49,6 +49,12 @@ namespace E_CommerceAPI.Controllers
             return Ok("test complete");       
         }
 
-        
+        // POST: api/Login
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> LoginUser([FromBody] User user)
+        {
+            return Ok();
+        }
     }
 }
