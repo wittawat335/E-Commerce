@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace E_CommerceAPI.Models;
 
 public partial class Offer
 {
-    public int OfferId { get; set; }
-
-    public string Title { get; set; } = null!;
-
-    public int Discount { get; set; }
-
-    public virtual ICollection<Product> Products { get; } = new List<Product>();
+    public int Id { get; set; }
+    public string Title { get; set; } = "";
+    public int Discount { get; set; } = 0;
 }

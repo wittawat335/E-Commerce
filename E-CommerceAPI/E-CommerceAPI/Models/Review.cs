@@ -3,17 +3,11 @@ using System.Collections.Generic;
 
 namespace E_CommerceAPI.Models;
 
-public partial class Review
+public class Review
 {
-    public int ReviewId { get; set; }
-
-    public int UserId { get; set; }
-
-    public int ProductId { get; set; }
-
-    public string Review1 { get; set; } = null!;
-
-    public string CreatedAt { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+    public int Id { get; set; }
+    public User User { get; set; } = new User();
+    public Product Product { get; set; } = new Product();
+    public string Value { get; set; } = string.Empty;
+    public string CreatedAt { get; set; } = string.Empty;
 }

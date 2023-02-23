@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerce.API.Models;
+using System;
 using System.Collections.Generic;
 
 namespace E_CommerceAPI.Models;
@@ -6,18 +7,8 @@ namespace E_CommerceAPI.Models;
 public partial class Order
 {
     public int Id { get; set; }
-
-    public int UserId { get; set; }
-
-    public int CartId { get; set; }
-
-    public int PaymentId { get; set; }
-
-    public string CreatedAt { get; set; } = null!;
-
-    public virtual Cart Cart { get; set; } = null!;
-
-    public virtual Payment Payment { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+    public User User { get; set; } = new User();
+    public Cart Cart { get; set; } = new Cart();
+    public Payment Payment { get; set; } = new Payment();
+    public string CreatedAt { get; set; } = string.Empty;
 }

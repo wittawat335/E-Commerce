@@ -1,29 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace E_CommerceAPI.Models;
 
-public partial class Product
+public class Product
 {
-    public int ProductId { get; set; }
-
-    public string Title { get; set; } = null!;
-
-    public string Description { get; set; } = null!;
-
-    public int CategoryId { get; set; }
-
-    public int OfferId { get; set; }
-
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public ProductCategory ProductCategory { get; set; } = new ProductCategory();
+    public Offer Offer { get; set; } = new Offer();
     public double Price { get; set; }
-
     public int Quantity { get; set; }
-
-    public string ImageName { get; set; } = null!;
-    [JsonIgnore]
-    public virtual ProductCategory Category { get; set; } = null!;
-
-    public virtual Offer Offer { get; set; } = null!;
+    public string ImageName { get; set; } = string.Empty;
 }

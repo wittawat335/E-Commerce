@@ -1,17 +1,16 @@
-﻿using System;
+﻿using E_CommerceAPI.Models;
+using System;
 using System.Collections.Generic;
 
-namespace E_CommerceAPI.Models;
-
-public partial class Cart
+namespace ECommerce.API.Models
 {
-    public int CartId { get; set; }
-
-    public int UserId { get; set; }
-
-    public string Ordered { get; set; } = null!;
-
-    public string OrderedOn { get; set; } = null!;
-
-    public virtual ICollection<Order> Orders { get; } = new List<Order>();
+    public class Cart
+    {
+        public int Id { get; set; }
+        public User User { get; set; } = new User();
+        public List<CartItem> CartItems { get; set; } = new();
+        public bool Ordered { get; set; }
+        public string OrderedOn { get; set; } = string.Empty;
+    }
 }
+

@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UtilityService {
+  constructor() {}
 
-  constructor() { }
+  applyDiscount(price: number, discount: number): number {
+    let finalPrice: number = price - price * (discount / 100);
+    return finalPrice;
+  }
 }
