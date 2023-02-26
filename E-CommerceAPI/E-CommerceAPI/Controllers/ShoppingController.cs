@@ -1,4 +1,5 @@
 ﻿using E_CommerceAPI.DALRepository;
+using E_CommerceAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,8 +12,10 @@ namespace E_CommerceAPI.Controllers
     {
         readonly IDataAccess dataAccess;
         private readonly string DateFormat;
+        private readonly EcommerceContext context;
         public ShoppingController(IDataAccess dataAccess, IConfiguration configuration)
         {
+            context = new EcommerceContext();
             this.dataAccess = dataAccess;
             DateFormat = configuration["Constants:DateFormat"];
         }
@@ -20,15 +23,19 @@ namespace E_CommerceAPI.Controllers
         [HttpGet("GetCategoryList")]
         public IActionResult GetCategoryList()
         {
-            var result = dataAccess.GetProductCategories();
-            return Ok(result);
+            return Ok(dataAccess.GetProductCategories());
         }
 
         [HttpGet("GetProducts")]
         public IActionResult GetProducts(string category, string subcategory, int count)
         {
-            var result = dataAccess.GetProducts(category, subcategory, count);
-            return Ok(result);
+            return Ok(dataAccess.GetProducts(category, subcategory, count));
+        }
+
+        [HttpGet("GetProduct/{id}")]
+        public IActionResult GetProduct(int id)
+        {
+            return Ok(dataAccess.GetProduct(id));
         }
     }
 }

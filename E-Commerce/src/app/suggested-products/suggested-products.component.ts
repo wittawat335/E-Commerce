@@ -25,7 +25,6 @@ export class SuggestedProductsComponent implements OnInit {
         this.count
       )
       .subscribe((res: any[]) => {
-        console.log(res);
         for (let product of res) {
           this.products.push(product);
         }

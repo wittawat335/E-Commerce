@@ -8,7 +8,7 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class NavigationService {
-  baseUrl = 'http://localhost:5121/api/';
+  baseUrl = 'http://localhost:5121/api/Shopping/';
 
   constructor(private http: HttpClient) {}
 
@@ -35,12 +35,22 @@ export class NavigationService {
   }
 
   getProducts(category: string, subCategory: string, count: number) {
-    return this.http.get<any[]>(this.baseUrl + 'Shopping/GetProducts', {
+    return this.http.get<any[]>(this.baseUrl + 'GetProducts', {
       params: new HttpParams()
         .set('category', category)
         .set('subCategory', subCategory)
         .set('count', count),
     });
+  }
+
+  getProduct(id: number) {
+    let url = this.baseUrl + 'GetProduct/' + id;
+    return this.http.get(url);
+  }
+
+  getAllReviewsOfProduct(productId: number) {
+    let url = this.baseUrl + 'GetProductReviews/' + productId;
+    return this.http.get(url);
   }
 
   /*   loginUser(email: string, password: string){

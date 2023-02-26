@@ -27,13 +27,14 @@ export class ProductsComponent implements OnInit {
 
       if (category && subcategory)
         this.navService
-          .getProducts(category, subcategory, 10)
+          .getProducts(category, subcategory, 5)
           .subscribe((res: any) => {
             this.products = res;
           });
     });
   }
 
+  //ใช้ Function Array Sort ของ JavaScript
   sortByPrice(sortKey: string) {
     this.products.sort((a, b) => {
       if (sortKey === 'default') {
