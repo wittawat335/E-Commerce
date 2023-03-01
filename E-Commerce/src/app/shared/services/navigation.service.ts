@@ -13,7 +13,7 @@ export class NavigationService {
   constructor(private http: HttpClient) {}
 
   getCategoryList() {
-    let url = this.baseUrl + 'Shopping/GetCategoryList';
+    let url = this.baseUrl + 'GetCategoryList';
     return this.http.get<any[]>(url).pipe(
       map((categories) =>
         categories.map((category) => {
@@ -30,8 +30,17 @@ export class NavigationService {
 
   registerUser(user: User) {
     console.log(user);
-    let url = this.baseUrl + 'User/Register';
+    let url = this.baseUrl + 'RegisterUser';
     return this.http.post(url, user, { responseType: 'text' });
+  }
+
+  loginUser(email: string, password: string) {
+    let url = this.baseUrl + 'LoginUser';
+    return this.http.post(
+      url,
+      { Email: email, Password: password },
+      { responseType: 'text' }
+    );
   }
 
   getProducts(category: string, subCategory: string, count: number) {

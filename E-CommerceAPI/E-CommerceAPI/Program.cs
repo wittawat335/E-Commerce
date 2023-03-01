@@ -1,4 +1,8 @@
+using E_CommerceAPI.Common;
 using E_CommerceAPI.DALRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +16,21 @@ builder.Services.AddCors(options =>
                           policy.WithOrigins("http://localhost:5010").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
                       });
 });
-
+//Add JWT AddAuthentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "localhost",
+        ValidAudience = "localhost",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.AppSettings.JWT_Secret)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 // Add services to the container.
 
@@ -22,6 +40,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Add Using DAL
 builder.Services.AddSingleton<IDataAccess, DataAccess>();
+
+var test = builder.Configuration.GetValue<string>(Constants.AppSettings.JWT_TokenDescriptor_Issuer);
 
 var app = builder.Build();
 

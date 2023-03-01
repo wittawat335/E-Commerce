@@ -274,3 +274,4 @@ F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\
 F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

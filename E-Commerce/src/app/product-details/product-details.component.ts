@@ -28,8 +28,19 @@ export class ProductDetailsComponent implements OnInit {
       console.log(id);
       this.navService.getProduct(id).subscribe((res: any) => {
         this.product = res;
+        this.fetchAllReviews();
       });
     });
+  }
+
+  submitReview() {
+    let review = this.reviewControl.value;
+    if (review === '' || review === null) {
+      this.showError = true;
+      return;
+    }
+
+    // let userid = this.utService.getU;
   }
 
   fetchAllReviews() {
