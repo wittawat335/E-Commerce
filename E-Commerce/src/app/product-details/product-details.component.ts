@@ -40,7 +40,14 @@ export class ProductDetailsComponent implements OnInit {
       return;
     }
 
-    // let userid = this.utService.getU;
+    let userid = this.utService.getUser().id;
+    let productid = this.product.id;
+
+    this.navService.submitReview(userid, productid, review).subscribe((res) => {
+      this.reviewSaved = true;
+      this.fetchAllReviews();
+      this.reviewControl.setValue('');
+    });
   }
 
   fetchAllReviews() {

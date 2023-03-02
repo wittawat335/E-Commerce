@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace E_CommerceAPI.Models;
 
-public class User
+public class UserModel
 {
     public int Id { get; set; }
     public string FirstName { get; set; } = string.Empty;

@@ -20,6 +20,7 @@ import { OpenProductsDirective } from './shared/directives/open-products.directi
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,14 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('user');
+        },
+        allowedDomains: ['localhost:5121'],
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

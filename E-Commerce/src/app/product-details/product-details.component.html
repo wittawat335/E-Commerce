@@ -78,7 +78,7 @@
           <div class="d-grid gap-2">
             <button type="button" class="btn btn-outline-success">
               เพิ่มลงในตะกร้า
-              <span>(Login First)</span>
+              <span *ngIf="!utService.isLoggedIn()">(Login First)</span>
             </button>
           </div>
         </div>
@@ -130,7 +130,9 @@
         </button>
 
         <div>
-          <h6 class="text-danger mt-4">Login first, then enter the review.</h6>
+          <h6 class="text-danger mt-4" *ngIf="!utService.isLoggedIn()">
+            Login first, then enter the review.
+          </h6>
           <h6 class="text-danger" *ngIf="showError">Review Cannot Be Empty!</h6>
           <h6 class="text-success" *ngIf="reviewSaved">
             Review Saved Succesfully!

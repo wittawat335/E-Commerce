@@ -7,6 +7,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { User } from '../shared/models/user';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +19,8 @@ export class LoginComponent {
   message = '';
   constructor(
     private fb: FormBuilder,
-    private navService: NavigationService,
-    private UtService: UtilityService
+    private navigationService: NavigationService,
+    private utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
@@ -40,15 +41,17 @@ export class LoginComponent {
     return this.loginForm.get('email') as FormControl;
   }
   get PWD(): FormControl {
-    return this.loginForm.get('PWD') as FormControl;
+    return this.loginForm.get('pwd') as FormControl;
   }
 
   login() {
-    this.navService
+    this.navigationService
       .loginUser(this.Email.value, this.PWD.value)
       .subscribe((res: any) => {
         if (res.toString() !== 'invalid') {
           this.message = 'Logged In Successfully.';
+          this.utilityService.setUser(res.toString());
+          console.log(this.utilityService.getUser());
         } else {
           this.message = 'Invalid Credentials!';
         }

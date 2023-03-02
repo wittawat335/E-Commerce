@@ -29,18 +29,19 @@ export class NavigationService {
   }
 
   registerUser(user: User) {
-    console.log(user);
     let url = this.baseUrl + 'RegisterUser';
     return this.http.post(url, user, { responseType: 'text' });
   }
 
+  // loginUser(user: User) {
+  //   let url = this.baseUrl + 'LoginUser';
+  //   return this.http.post(url, user, { responseType: 'text' });
+  // }
+
   loginUser(email: string, password: string) {
+    var body = { email, password };
     let url = this.baseUrl + 'LoginUser';
-    return this.http.post(
-      url,
-      { Email: email, Password: password },
-      { responseType: 'text' }
-    );
+    return this.http.post(url, body, { responseType: 'text' });
   }
 
   getProducts(category: string, subCategory: string, count: number) {
@@ -60,6 +61,20 @@ export class NavigationService {
   getAllReviewsOfProduct(productId: number) {
     let url = this.baseUrl + 'GetProductReviews/' + productId;
     return this.http.get(url);
+  }
+
+  submitReview(userid: number, productid: number, review: string) {
+    let obj: any = {
+      User: {
+        Id: userid,
+      },
+      Product: {
+        Id: productid,
+      },
+      Value: review,
+    };
+    let url = this.baseUrl + 'InsertReview';
+    return this.http.post(url, obj, { responseType: 'text' });
   }
 
   /*   loginUser(email: string, password: string){

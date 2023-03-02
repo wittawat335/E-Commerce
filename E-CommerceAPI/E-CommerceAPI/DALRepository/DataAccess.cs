@@ -170,7 +170,7 @@ namespace E_CommerceAPI.DALRepository
             return product;
         }
 
-        public bool InsertUser(User user)
+        public bool InsertUser(UserModel user)
         {
             throw new NotImplementedException();
         }
@@ -180,17 +180,17 @@ namespace E_CommerceAPI.DALRepository
             throw new NotImplementedException();
         }
 
-        public void InsertReview(Review review)
+        public void InsertReview(ReviewModel review)
         {
             throw new NotImplementedException();
         }
 
-        public List<Review> GetProductReviews(int productId)
+        public List<ReviewModel> GetProductReviews(int productId)
         {
             throw new NotImplementedException();
         }
 
-        public User GetUser(int id)
+        public UserModel GetUser(int id)
         {
             throw new NotImplementedException();
         }
