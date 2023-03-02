@@ -3,6 +3,7 @@ using E_CommerceAPI.DALRepository;
 using E_CommerceAPI.Entities;
 using E_CommerceAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
@@ -56,33 +57,36 @@ namespace E_CommerceAPI.Controllers
             try
             {
                 var resultList = new List<ReviewModel>();
-                var result = new ReviewModel();
-                var review = context.Reviews.FirstOrDefault(x => x.ProductId == productId);
-                var user = context.Users.FirstOrDefault(x => x.UserId == review.UserId);
-                var product = context.Products.FirstOrDefault(x => x.ProductId == productId);
-                //--------------Review----------------------/
-                result.Value = review.Description;
-                result.Id = review.ReviewId;
-                result.CreatedAt = review.CreatedAt;
-                //---------User-------------------///
-                result.User.Id = user.UserId;
-                result.User.FirstName = user.FirstName;
-                result.User.LastName = user.LastName;
-                result.User.Email = user.Email;
-                result.User.Address = user.Address;
-                result.User.Mobile = user.Mobile;
-                result.User.Password = user.Password;
-                result.User.CreatedAt = user.CreatedAt;
-                result.User.ModifiedAt = user.ModifiedAt;
-                //------------------------------------///
-                result.Product.Id = product.ProductId;
-                result.Product.Title = product.Title;
-                result.Product.Description = product.Description;
-                result.Product.Price = product.Price;
-                result.Product.Quantity = product.Quantity;
-                result.Product.ImageName = product.ImageName;
-                resultList.Add(result);
-
+                var review = context.Reviews.Where(x => x.ProductId == productId).ToList();
+                foreach (var item in review)
+                {
+                    var result = new ReviewModel();
+                    //--------------Review----------------------/
+                    result.Value = item.Description;
+                    result.Id = item.ReviewId;
+                    result.CreatedAt = item.CreatedAt;
+                    //---------User-------------------///
+                    var user = context.Users.FirstOrDefault(x => x.UserId == item.UserId);
+                    result.User.Id = user.UserId;
+                    result.User.FirstName = user.FirstName;
+                    result.User.LastName = user.LastName;
+                    result.User.Email = user.Email;
+                    result.User.Address = user.Address;
+                    result.User.Mobile = user.Mobile;
+                    result.User.Password = user.Password;
+                    result.User.CreatedAt = user.CreatedAt;
+                    result.User.ModifiedAt = user.ModifiedAt;
+                    //-----------------Product-------------------///
+                    var product = context.Products.FirstOrDefault(x => x.ProductId == item.ProductId);
+                    result.Product.Id = product.ProductId;
+                    result.Product.Title = product.Title;
+                    result.Product.Description = product.Description;
+                    result.Product.Price = product.Price;
+                    result.Product.Quantity = product.Quantity;
+                    result.Product.ImageName = product.ImageName;
+                    resultList.Add(result);
+                }
+              
                 return Ok(resultList);
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
