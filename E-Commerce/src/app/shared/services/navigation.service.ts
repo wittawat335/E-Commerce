@@ -33,11 +33,6 @@ export class NavigationService {
     return this.http.post(url, user, { responseType: 'text' });
   }
 
-  // loginUser(user: User) {
-  //   let url = this.baseUrl + 'LoginUser';
-  //   return this.http.post(url, user, { responseType: 'text' });
-  // }
-
   loginUser(email: string, password: string) {
     var body = { email, password };
     let url = this.baseUrl + 'LoginUser';

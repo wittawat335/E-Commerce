@@ -2,18 +2,10 @@
   <div class="card text-center">
     <div class="card-header fw-bold fs-5 text-success">Header</div>
 
-    <div
-      class="overflow-hidden d-flex justify-content-center align-items-center"
-    >
-      <img
-        src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+    <div class="overflow-hidden d-flex justify-content-center align-items-center">
+      <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
           product.id
-        }}/1.jpg"
-        alt=""
-        class="card-img-top"
-        OpenProductDetails
-        [productId]="product.id"
-      />
+        }}/1.jpg" alt="" class="card-img-top" OpenProductDetails [productId]="product.id" />
     </div>
 
     <div class="card-body">
@@ -35,9 +27,9 @@
     </div>
 
     <div class="card-footer d-grid gap-2">
-      <button type="button" class="btn btn-outline-success">
-        Add to Cart
-        <span>(Login First)</span>
+      <button type="button" class="btn btn-outline-success" [disabled]="!utService.isLoggedIn()">
+        เพิ่มลงในตะกร้า
+        <span *ngIf="!utService.isLoggedIn()">(Login First)</span>
       </button>
     </div>
   </div>
@@ -46,18 +38,10 @@
 <div class="list-view" *ngIf="view === 'list'">
   <div class="card">
     <div class="row g-0">
-      <div
-        class="col-md-4 overflow-hidden d-flex justify-content-center align-items-center"
-      >
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+      <div class="col-md-4 overflow-hidden d-flex justify-content-center align-items-center">
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/1.jpg"
-          class="img-fluid rounded-start"
-          alt="Product Image"
-          OpenProductDetails
-          [productId]="product.id"
-        />
+          }}/1.jpg" class="img-fluid rounded-start" alt="Product Image" OpenProductDetails [productId]="product.id" />
       </div>
       <div class="col d-flex flex-column">
         <div class="card-header text-center">Header</div>
@@ -65,7 +49,7 @@
         <div class="card-body">
           <h5 class="card-title title">{{ product.title }}</h5>
           <p class="card-text description">{{ product.description }}</p>
-          <h6 class="card-subtitle mb-3 text-primary">
+          <h6 class="card-subtitle mb-3 text-primary" *ngIf="product.quantity > 0">
             {{ product.quantity }} products are available.
           </h6>
         </div>
@@ -82,9 +66,9 @@
         </div>
 
         <div class="card-footer text-muted d-grid gap-2">
-          <button type="button" class="btn btn-outline-success">
-            Add to Cart
-            <span>(Login First)</span>
+          <button type="button" class="btn btn-outline-success" [disabled]="!utService.isLoggedIn()">
+            เพิ่มลงในตะกร้า
+            <span *ngIf="!utService.isLoggedIn()">(Login First)</span>
           </button>
         </div>
       </div>
@@ -96,18 +80,10 @@
 <div class="cart-item-view" *ngIf="view === 'currcartitem'">
   <div class="card">
     <div class="row g-0">
-      <div
-        class="col-4 overflow-hidden d-flex justify-content-center align-items-center"
-      >
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+      <div class="col-4 overflow-hidden d-flex justify-content-center align-items-center">
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/1.jpg"
-          class="img-fluid rounded-start"
-          alt="Product Image"
-          OpenProductDetails
-          [productId]="product.id"
-        />
+          }}/1.jpg" class="img-fluid rounded-start" alt="Product Image" OpenProductDetails [productId]="product.id" />
       </div>
       <div class="col-8">
         <div class="card-body">
@@ -127,18 +103,10 @@
 
 <div class="cart-item-view" *ngIf="view === 'prevcartitem'">
   <div class="card text-center">
-    <div
-      class="overflow-hidden d-flex justify-content-center align-items-center"
-    >
-      <img
-        src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+    <div class="overflow-hidden d-flex justify-content-center align-items-center">
+      <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
           product.id
-        }}/1.jpg"
-        alt=""
-        class="card-img-top"
-        OpenProductDetails
-        [productId]="product.id"
-      />
+        }}/1.jpg" alt="" class="card-img-top" OpenProductDetails [productId]="product.id" />
     </div>
 
     <div class="card-body">

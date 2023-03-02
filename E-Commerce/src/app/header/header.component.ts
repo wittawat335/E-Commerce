@@ -26,13 +26,13 @@ export class HeaderComponent implements OnInit {
 
   navigationList: NavigationItem[] = [];
   constructor(
-    private navService: NavigationService,
-    public utService: UtilityService
+    private NavigationService: NavigationService,
+    public UtilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
     // Get Category List
-    this.navService.getCategoryList().subscribe((list: Category[]) => {
+    this.NavigationService.getCategoryList().subscribe((list: Category[]) => {
       for (let item of list) {
         let present = false;
         for (let navItem of this.navigationList) {

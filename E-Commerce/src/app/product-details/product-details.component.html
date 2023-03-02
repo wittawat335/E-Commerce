@@ -3,53 +3,27 @@
     <!-- Profile Image of Product -->
     <div class="col-4 p-4">
       <div class="d-flex justify-content-center align-items-center">
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/{{ imageIndex }}.jpg"
-          alt=""
-          class="w-100"
-        />
+          }}/{{ imageIndex }}.jpg" alt="" class="w-100" />
       </div>
 
-      <div
-        class="image-thumbnails mt-4 d-flex justify-content-between align-items-center"
-      >
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+      <div class="image-thumbnails mt-4 d-flex justify-content-between align-items-center">
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/1.jpg"
-          alt="Thumbnail Image"
-          (click)="imageIndex = 1"
-        />
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+          }}/1.jpg" alt="Thumbnail Image" (click)="imageIndex = 1" />
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/2.jpg"
-          alt="Thumbnail Image"
-          (click)="imageIndex = 2"
-        />
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+          }}/2.jpg" alt="Thumbnail Image" (click)="imageIndex = 2" />
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/3.jpg"
-          alt="Thumbnail Image"
-          (click)="imageIndex = 3"
-        />
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+          }}/3.jpg" alt="Thumbnail Image" (click)="imageIndex = 3" />
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/4.jpg"
-          alt="Thumbnail Image"
-          (click)="imageIndex = 4"
-        />
-        <img
-          src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
+          }}/4.jpg" alt="Thumbnail Image" (click)="imageIndex = 4" />
+        <img src="../../assets/Images/{{ product.productCategory.subCategory }}/{{
             product.id
-          }}/5.jpg"
-          alt="Thumbnail Image"
-          (click)="imageIndex = 5"
-        />
+          }}/5.jpg" alt="Thumbnail Image" (click)="imageIndex = 5" />
       </div>
     </div>
     <!-- Details of Product -->
@@ -76,7 +50,7 @@
             มีสินค้าทั้งหมด {{ product.quantity }} ชิ้น
           </h6>
           <div class="d-grid gap-2">
-            <button type="button" class="btn btn-outline-success">
+            <button type="button" class="btn btn-outline-success" [disabled]="!utService.isLoggedIn()">
               เพิ่มลงในตะกร้า
               <span *ngIf="!utService.isLoggedIn()">(Login First)</span>
             </button>
@@ -85,10 +59,7 @@
         <div class="card-body">
           <h5 class="card-text">รายละเอียดสินค้า</h5>
           <ul class="list-group">
-            <li
-              class="list-group-item list-group-item-action"
-              *ngFor="let item of product.description.split('. ')"
-            >
+            <li class="list-group-item list-group-item-action" *ngFor="let item of product.description.split('. ')">
               {{ item }}
             </li>
           </ul>
@@ -100,16 +71,12 @@
   <!-- Suggested Products -->
   <div class="row g-0">
     <div class="col-12 ps-5 pt-4 pb-3">
-      <h3
-        class="border border-secondary text-center py-2 my-rounded-corner w-25"
-      >
+      <h3 class="border border-secondary text-center py-2 my-rounded-corner w-25">
         Related Products
       </h3>
     </div>
     <div class="col-12">
-      <app-suggested-products
-        [category]="product.productCategory"
-      ></app-suggested-products>
+      <app-suggested-products [category]="product.productCategory"></app-suggested-products>
     </div>
   </div>
 
@@ -117,15 +84,11 @@
   <div class="row g-0 my-5">
     <!-- Users Review -->
     <div class="col p-3">
-      <h3>Give Your Review</h3>
-      <h5 class="mt-4">Write Your Review</h5>
+      <h3>รีวิว</h3>
+      <h5 class="mt-4">เขียนรีวิวของคุณ</h5>
       <textarea class="w-75 p-2" [formControl]="reviewControl"></textarea>
       <div class="d-flex align-items-start">
-        <button
-          class="btn btn-outline-secondary mt-4 me-5"
-          type="button"
-          (click)="submitReview()"
-        >
+        <button class="btn btn-outline-secondary mt-4 me-5" type="button" (click)="submitReview()">
           Save Review
         </button>
 
@@ -142,7 +105,7 @@
     </div>
     <!-- Other Review -->
     <div class="col p-3">
-      <h3>Other Reviews</h3>
+      <h3>รีวิวอื่นๆ</h3>
       <h6 *ngIf="otherReviews.length === 0">No Reviews Yet!</h6>
       <div class="card mt-3" *ngFor="let review of otherReviews">
         <div class="card-header d-flex justify-content-between">
