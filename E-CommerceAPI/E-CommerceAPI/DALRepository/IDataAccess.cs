@@ -16,9 +16,9 @@ namespace E_CommerceAPI.DALRepository
         List<ReviewModel> GetProductReviews(int productId);
         UserModel GetUser(int id);
         bool InsertCartItem(int userId, int productId);
-        Cart GetActiveCartOfUser(int userid);
-        Cart GetCart(int cartid);
-        List<Cart> GetAllPreviousCartsOfUser(int userid);
+        CartViewModel GetActiveCartOfUser(int userid);
+        CartViewModel GetCart(int cartid);
+        List<CartViewModel> GetAllPreviousCartsOfUser(int userid);
         List<PaymentMethod> GetPaymentMethods();
         int InsertPayment(Payment payment);
         int InsertOrder(Order order);

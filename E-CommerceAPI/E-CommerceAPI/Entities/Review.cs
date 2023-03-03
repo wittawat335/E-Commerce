@@ -5,7 +5,7 @@ namespace E_CommerceAPI.Entities;
 
 public partial class Review
 {
-    public int ReviewId { get; set; }
+    public int Id { get; set; }
 
     public int UserId { get; set; }
 

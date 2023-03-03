@@ -50,7 +50,8 @@
             มีสินค้าทั้งหมด {{ product.quantity }} ชิ้น
           </h6>
           <div class="d-grid gap-2">
-            <button type="button" class="btn btn-outline-success" [disabled]="!utService.isLoggedIn()">
+            <button type="button" class="btn btn-outline-success" (click)="this.utService.addToCart(product)"
+              [disabled]="!utService.isLoggedIn()">
               เพิ่มลงในตะกร้า
               <span *ngIf="!utService.isLoggedIn()">(Login First)</span>
             </button>

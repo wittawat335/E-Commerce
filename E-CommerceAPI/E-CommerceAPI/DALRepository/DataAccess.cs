@@ -33,7 +33,7 @@ namespace E_CommerceAPI.DALRepository
                 {
                     var category = new ProductCategory()
                     {
-                        Id = (int)reader["CategoryId"],
+                        Id = (int)reader["Id"],
                         Category = (string)reader["Category"],
                         SubCategory = (string)reader["SubCategory"]
                     };
@@ -54,14 +54,14 @@ namespace E_CommerceAPI.DALRepository
                     Connection = connection
                 };
 
-                string query = "SELECT * FROM ProductCategories WHERE CategoryId=" + id + ";";
+                string query = "SELECT * FROM ProductCategories WHERE Id=" + id + ";";
                 command.CommandText = query;
 
                 connection.Open();
                 SqlDataReader r = command.ExecuteReader();
                 while (r.Read())
                 {
-                    productCategory.Id = (int)r["CategoryId"];
+                    productCategory.Id = (int)r["Id"];
                     productCategory.Category = (string)r["Category"];
                     productCategory.SubCategory = (string)r["SubCategory"];
                 }
@@ -80,14 +80,14 @@ namespace E_CommerceAPI.DALRepository
                     Connection = connection
                 };
 
-                string query = "SELECT * FROM Offers WHERE OfferId=" + id + ";";
+                string query = "SELECT * FROM Offers WHERE Id=" + id + ";";
                 command.CommandText = query;
 
                 connection.Open();
                 SqlDataReader r = command.ExecuteReader();
                 while (r.Read())
                 {
-                    offer.Id = (int)r["OfferId"];
+                    offer.Id = (int)r["Id"];
                     offer.Title = (string)r["Title"];
                     offer.Discount = (int)r["Discount"];
                 }
@@ -105,7 +105,7 @@ namespace E_CommerceAPI.DALRepository
                     Connection = connection
                 };
 
-                string query = "SELECT TOP " + count + " * FROM Products WHERE CategoryId=(SELECT CategoryId FROM ProductCategories WHERE Category=@c AND SubCategory=@s) ORDER BY newid();";
+                string query = "SELECT TOP " + count + " * FROM Products p WHERE p.CategoryId=(SELECT pc.Id FROM ProductCategories pc WHERE Category=@c AND SubCategory=@s) ORDER BY newid();";
                 command.CommandText = query;
                 command.Parameters.Add("@c", System.Data.SqlDbType.NVarChar).Value = category;
                 command.Parameters.Add("@s", System.Data.SqlDbType.NVarChar).Value = subcategory;
@@ -116,7 +116,7 @@ namespace E_CommerceAPI.DALRepository
                 {
                     var product = new Product()
                     {
-                        Id = (int)reader["ProductId"],
+                        Id = (int)reader["Id"],
                         Title = (string)reader["Title"],
                         Description = (string)reader["Description"],
                         Price = (double)reader["Price"],
@@ -146,14 +146,14 @@ namespace E_CommerceAPI.DALRepository
                     Connection = connection
                 };
 
-                string query = "SELECT * FROM Products WHERE ProductId=" + id + ";";
+                string query = "SELECT * FROM Products WHERE Id=" + id + ";";
                 command.CommandText = query;
 
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    product.Id = (int)reader["ProductId"];
+                    product.Id = (int)reader["Id"];
                     product.Title = (string)reader["Title"];
                     product.Description = (string)reader["Description"];
                     product.Price = (double)reader["Price"];
@@ -200,17 +200,17 @@ namespace E_CommerceAPI.DALRepository
             throw new NotImplementedException();
         }
 
-        public Cart GetActiveCartOfUser(int userid)
+        public CartViewModel GetActiveCartOfUser(int userid)
         {
             throw new NotImplementedException();
         }
 
-        public Cart GetCart(int cartid)
+        public CartViewModel GetCart(int cartid)
         {
             throw new NotImplementedException();
         }
 
-        public List<Cart> GetAllPreviousCartsOfUser(int userid)
+        public List<CartViewModel> GetAllPreviousCartsOfUser(int userid)
         {
             throw new NotImplementedException();
         }

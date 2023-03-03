@@ -49,11 +49,17 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+    this.UtilityService.changeCart.subscribe((res: any) => {
+      if (parseInt(res) === 0) {
+        this.cartItems = 0;
+      } else {
+        this.cartItems += parseInt(res);
+      }
+    });
   }
 
   openModal(name: string) {
     this.container.clear();
-
     let componentType!: Type<any>;
     if (name === 'login') {
       componentType = LoginComponent;
@@ -63,7 +69,6 @@ export class HeaderComponent implements OnInit {
       componentType = RegisterComponent;
       this.modalTitle.nativeElement.textContent = 'Enter Register Information';
     }
-
     this.container.createComponent(componentType);
   }
 }

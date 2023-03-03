@@ -27,8 +27,9 @@ export class ProductsComponent implements OnInit {
 
       if (category && subcategory)
         this.navService
-          .getProducts(category, subcategory, 5)
+          .getProducts(category, subcategory, 10)
           .subscribe((res: any) => {
+            console.log(res);
             this.products = res;
           });
     });

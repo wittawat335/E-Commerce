@@ -5,7 +5,7 @@ namespace E_CommerceAPI.Entities;
 
 public partial class Cart
 {
-    public int CartId { get; set; }
+    public int Id { get; set; }
 
     public int UserId { get; set; }
 

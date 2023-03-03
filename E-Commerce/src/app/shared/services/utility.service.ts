@@ -1,12 +1,15 @@
+import { Product } from './../models/product';
 import { User } from './../models/user';
 import { NavigationService } from './navigation.service';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilityService {
+  changeCart = new Subject();
   constructor(
     private NavigationService: NavigationService,
     private jwt: JwtHelperService
@@ -43,5 +46,13 @@ export class UtilityService {
 
   logoutUser() {
     localStorage.removeItem('user');
+  }
+  addToCart(product: Product) {
+    let productId = product.id;
+    let userId = this.getUser().id;
+
+    this.NavigationService.addToCart(userId, productId).subscribe((res) => {
+      if (res.toString() === 'inserted') this.changeCart.next(1);
+    });
   }
 }

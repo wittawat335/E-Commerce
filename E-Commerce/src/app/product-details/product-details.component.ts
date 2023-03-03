@@ -25,7 +25,6 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: any) => {
       let id = params.id;
-      console.log(id);
       this.navService.getProduct(id).subscribe((res: any) => {
         this.product = res;
         this.fetchAllReviews();
@@ -40,10 +39,10 @@ export class ProductDetailsComponent implements OnInit {
       return;
     }
 
-    let userid = this.utService.getUser().id;
-    let productid = this.product.id;
+    let userId = this.utService.getUser().id;
+    let productId = this.product.id;
 
-    this.navService.submitReview(userid, productid, review).subscribe((res) => {
+    this.navService.submitReview(userId, productId, review).subscribe((res) => {
       this.reviewSaved = true;
       this.fetchAllReviews();
       this.reviewControl.setValue('');
@@ -55,6 +54,7 @@ export class ProductDetailsComponent implements OnInit {
     this.navService
       .getAllReviewsOfProduct(this.product.id)
       .subscribe((res: any) => {
+        console.log(res);
         for (let review of res) {
           this.otherReviews.push(review);
         }

@@ -84,9 +84,9 @@ public partial class EcommerceContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK_Product");
+            entity.HasKey(e => e.Id).HasName("PK_Product");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+            entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_ProductCategories");
@@ -99,8 +99,6 @@ public partial class EcommerceContext : DbContext
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId);
-
             entity.Property(e => e.Category).HasMaxLength(50);
             entity.Property(e => e.SubCategory).HasMaxLength(50);
         });

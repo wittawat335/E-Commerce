@@ -5,7 +5,7 @@ namespace E_CommerceAPI.Entities;
 
 public partial class PaymentMethod
 {
-    public int PaymentMethodId { get; set; }
+    public int Id { get; set; }
 
     public string? Type { get; set; }
 

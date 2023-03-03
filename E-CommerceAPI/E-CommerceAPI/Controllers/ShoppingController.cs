@@ -2,6 +2,8 @@
 using E_CommerceAPI.DALRepository;
 using E_CommerceAPI.Entities;
 using E_CommerceAPI.Models;
+using E_CommerceAPI.ViewModels;
+using ECommerce.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -56,34 +58,22 @@ namespace E_CommerceAPI.Controllers
         {
             try
             {
-                var resultList = new List<ReviewModel>();
+                var resultList = new List<ReviewViewModel>();
                 var review = context.Reviews.Where(x => x.ProductId == productId).ToList();
                 foreach (var item in review)
                 {
-                    var result = new ReviewModel();
+                    var result = new ReviewViewModel();
                     //--------------Review----------------------/
                     result.Value = item.Description;
-                    result.Id = item.ReviewId;
+                    result.Id = item.Id;
                     result.CreatedAt = item.CreatedAt;
                     //---------User-------------------///
-                    var user = context.Users.FirstOrDefault(x => x.UserId == item.UserId);
-                    result.User.Id = user.UserId;
-                    result.User.FirstName = user.FirstName;
-                    result.User.LastName = user.LastName;
-                    result.User.Email = user.Email;
-                    result.User.Address = user.Address;
-                    result.User.Mobile = user.Mobile;
-                    result.User.Password = user.Password;
-                    result.User.CreatedAt = user.CreatedAt;
-                    result.User.ModifiedAt = user.ModifiedAt;
+                    var user = context.Users.FirstOrDefault(x => x.Id == item.UserId);
+                    result.User = user;
                     //-----------------Product-------------------///
-                    var product = context.Products.FirstOrDefault(x => x.ProductId == item.ProductId);
-                    result.Product.Id = product.ProductId;
-                    result.Product.Title = product.Title;
-                    result.Product.Description = product.Description;
-                    result.Product.Price = product.Price;
-                    result.Product.Quantity = product.Quantity;
-                    result.Product.ImageName = product.ImageName;
+                    var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
+                    result.Product = product;
+            
                     resultList.Add(result);
                 }
               
@@ -130,7 +120,7 @@ namespace E_CommerceAPI.Controllers
                         Audience = _configuration.GetValue<string>(Constants.AppSettings.JWT_TokenDescriptor_Audience),
                         Subject = new ClaimsIdentity(new Claim[]
                         {
-                            new Claim("id", query.UserId.ToString()),
+                            new Claim("id", query.Id.ToString()),
                             new Claim("firstName", query.FirstName),
                             new Claim("lastName", query.LastName),
                             new Claim("address", query.Address),
@@ -176,6 +166,75 @@ namespace E_CommerceAPI.Controllers
                 return Ok(message);
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
+        }
+
+        [HttpPost("InsertCartItem/{userid}/{productid}")]
+        public IActionResult InsertCartItem(int userid, int productid)
+        {
+            try
+            {
+                string result = "not inserted";
+                var cartCount = context.Carts.Count(x => x.Ordered == "false" && x.UserId == userid);
+                if(cartCount == 0)
+                {
+                    var insertCart = new Cart();
+                    insertCart.UserId = userid;
+                    insertCart.Ordered = "false";
+                    insertCart.OrderedOn = "";
+                    context.Carts.Add(insertCart);
+                    context.SaveChanges();
+                }
+
+                var cartId = context.Carts.FirstOrDefault(x => x.UserId == userid && x.Ordered == "false").Id;
+                if (cartId != null)
+                {
+                    var insertCartItem = new CartItem();
+                    insertCartItem.CartId = cartId;
+                    insertCartItem.ProductId = productid;
+                    context.CartItems.Add(insertCartItem);
+                    context.SaveChanges();
+                    result = "inserted";
+                }
+
+                return Ok(result);
+            }
+            catch(Exception ex) { return BadRequest(ex); }
+        }
+
+        [HttpGet("GetActiveCartOfUser/{id}")]
+        public IActionResult GetActiveCartOfUser(int id) 
+        {
+            try
+            {
+                var cart = new CartViewModel();
+                var count = context.Carts.Count(x => x.UserId == id && x.Ordered == "false");
+                if (count == 0){ return Ok(cart); }
+
+                var cartId = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "false").Id;
+                if (cartId != null)
+                {
+                    var user = context.Users.FirstOrDefault(x => x.Id == id);
+                    var listCart = context.CartItems.Where(x => x.CartId == cartId).ToList();
+                    foreach (var item in listCart)
+                    {
+                        var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
+                        var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
+                        var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
+                        var result = new CartItemViewModel();
+                        result.product = product;
+                        result.product.ProductCategory = category;
+                        result.product.Offer = offer;
+                        cart.CartItems.Add(result);
+                    }
+                    cart.Id = cartId;
+                    cart.User = user;
+                    cart.Ordered = false;
+                    cart.OrderedOn = "";
+                }
+
+                return Ok(cart);
+            }
+            catch (Exception ex) { return BadRequest(ex); }
         }
     }
 }

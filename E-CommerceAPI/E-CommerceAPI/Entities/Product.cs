@@ -5,7 +5,7 @@ namespace E_CommerceAPI.Entities;
 
 public partial class Product
 {
-    public int ProductId { get; set; }
+    public int Id { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -21,7 +21,7 @@ public partial class Product
 
     public string ImageName { get; set; } = null!;
 
-    public virtual ProductCategory Category { get; set; } = null!;
+    public virtual ProductCategory ProductCategory { get; set; } = null!;
 
     public virtual Offer Offer { get; set; } = null!;
 }

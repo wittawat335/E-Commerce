@@ -53,26 +53,32 @@ export class NavigationService {
     return this.http.get(url);
   }
 
+  getActiveCartOfUser(userId: number) {
+    let url = this.baseUrl + 'GetActiveCartOfUser/' + userId;
+    return this.http.get(url);
+  }
+
   getAllReviewsOfProduct(productId: number) {
     let url = this.baseUrl + 'GetProductReviews/' + productId;
     return this.http.get(url);
   }
 
-  submitReview(userid: number, productid: number, review: string) {
+  addToCart(userId: number, productId: number) {
+    let url = this.baseUrl + 'InsertCartItem/' + userId + '/' + productId;
+    return this.http.post(url, null, { responseType: 'text' });
+  }
+
+  submitReview(userId: number, productId: number, review: string) {
     let obj: any = {
       User: {
-        Id: userid,
+        Id: userId,
       },
       Product: {
-        Id: productid,
+        Id: productId,
       },
       Value: review,
     };
     let url = this.baseUrl + 'InsertReview';
     return this.http.post(url, obj, { responseType: 'text' });
   }
-
-  /*   loginUser(email: string, password: string){
-    let url =this.baseUrl + 'User'
-  } */
 }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿
+using E_CommerceAPI.Models;
+using System;
 using System.Collections.Generic;
 
-namespace E_CommerceAPI.Models;
+
 
 public class ReviewModel
 {
