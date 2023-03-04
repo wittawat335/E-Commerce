@@ -1,3 +1,5 @@
+import { CartItem } from './../shared/models/cart';
+import { NavigationService } from './../shared/services/navigation.service';
 import {
   Component,
   ElementRef,
@@ -10,7 +12,7 @@ import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { NavigationItem } from '../shared/models/navigation-item';
 import { Category } from '../shared/models/product';
-import { NavigationService } from '../shared/services/navigation.service';
+
 import { UtilityService } from '../shared/services/utility.service';
 
 @Component({
@@ -49,6 +51,14 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+    // Cart
+    if (this.UtilityService.isLoggedIn()) {
+      this.NavigationService.getActiveCartOfUser(
+        this.UtilityService.getUser().id
+      ).subscribe((res: any) => {
+        this.cartItems = res.cartItems.length;
+      });
+    }
     this.UtilityService.changeCart.subscribe((res: any) => {
       if (parseInt(res) === 0) {
         this.cartItems = 0;

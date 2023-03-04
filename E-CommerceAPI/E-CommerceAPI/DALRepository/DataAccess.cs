@@ -192,7 +192,33 @@ namespace E_CommerceAPI.DALRepository
 
         public UserModel GetUser(int id)
         {
-            throw new NotImplementedException();
+            var user = new UserModel();
+            using (SqlConnection connection = new(dbconnection))
+            {
+                SqlCommand command = new()
+                {
+                    Connection = connection
+                };
+
+                string query = "SELECT * FROM Users WHERE UserId=" + id + ";";
+                command.CommandText = query;
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    user.Id = (int)reader["UserId"];
+                    user.FirstName = (string)reader["FirstName"];
+                    user.LastName = (string)reader["LastName"];
+                    user.Email = (string)reader["Email"];
+                    user.Address = (string)reader["Address"];
+                    user.Mobile = (string)reader["Mobile"];
+                    user.Password = (string)reader["Password"];
+                    user.CreatedAt = (string)reader["CreatedAt"];
+                    user.ModifiedAt = (string)reader["ModifiedAt"];
+                }
+            }
+            return user;
         }
 
         public bool InsertCartItem(int userId, int productId)
@@ -207,7 +233,43 @@ namespace E_CommerceAPI.DALRepository
 
         public CartViewModel GetCart(int cartid)
         {
-            throw new NotImplementedException();
+            var cart = new CartViewModel();
+            using (SqlConnection connection = new(dbconnection))
+            {
+                SqlCommand command = new()
+                {
+                    Connection = connection
+                };
+                connection.Open();
+
+                string query = "SELECT * FROM CartItems WHERE CartId=" + cartid + ";";
+                command.CommandText = query;
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    CartItemViewModel item = new()
+                    {
+                        Id = (int)reader["CartItemId"],
+                        product = GetProduct((int)reader["ProductId"])
+                    };
+                    cart.CartItems.Add(item);
+                }
+                reader.Close();
+
+                query = "SELECT * FROM Carts WHERE CartId=" + cartid + ";";
+                command.CommandText = query;
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    cart.Id = cartid;
+                    cart.User = GetUser((int)reader["UserId"]);
+                    cart.Ordered = bool.Parse((string)reader["Ordered"]);
+                    cart.OrderedOn = (string)reader["OrderedOn"];
+                }
+                reader.Close();
+            }
+            return cart;
         }
 
         public List<CartViewModel> GetAllPreviousCartsOfUser(int userid)

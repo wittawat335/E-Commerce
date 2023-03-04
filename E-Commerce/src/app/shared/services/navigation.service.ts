@@ -63,6 +63,11 @@ export class NavigationService {
     return this.http.get(url);
   }
 
+  getAllPreviousCarts(userId: number) {
+    let url = this.baseUrl + 'GetAllPreviousCartsOfUser/' + userId;
+    return this.http.get(url);
+  }
+
   addToCart(userId: number, productId: number) {
     let url = this.baseUrl + 'InsertCartItem/' + userId + '/' + productId;
     return this.http.post(url, null, { responseType: 'text' });

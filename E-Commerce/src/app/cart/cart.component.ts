@@ -1,5 +1,5 @@
 import { Payment } from './../shared/models/payment-and-orders';
-import { Cart } from './../shared/models/cart';
+import { Cart, CartItem } from './../shared/models/cart';
 import { NavigationService } from './../shared/services/navigation.service';
 import { UtilityService } from './../shared/services/utility.service';
 import { Component, OnInit } from '@angular/core';
@@ -29,7 +29,7 @@ export class CartComponent implements OnInit {
       reason: '',
     },
     totalAmount: 0,
-    shipingCharges: 0,
+    shippingCharges: 0,
     amountReduced: 0,
     amountPaid: 0,
     createdAt: '',
@@ -47,6 +47,19 @@ export class CartComponent implements OnInit {
     ).subscribe((res: any) => {
       console.log(res);
       this.usersCart = res;
+
+      //Calculate Payment
+      this.UtilityService.calculatePayment(
+        this.usersCart,
+        this.usersPaymentInfo
+      );
+    });
+    //Get Previous Carts
+    this.NavigationService.getAllPreviousCarts(
+      this.UtilityService.getUser().id
+    ).subscribe((res: any) => {
+      this.usersPreviousCarts = res.CartItem;
+      console.log(this.usersPreviousCarts);
     });
   }
 }
