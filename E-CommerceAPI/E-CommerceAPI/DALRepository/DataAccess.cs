@@ -1,5 +1,5 @@
-﻿using E_CommerceAPI.Models;
-using ECommerce.API.Models;
+﻿using E_CommerceAPI.Entities;
+using E_CommerceAPI.Models;
 using Microsoft.Data.SqlClient;
 
 namespace E_CommerceAPI.DALRepository
@@ -15,9 +15,9 @@ namespace E_CommerceAPI.DALRepository
             dbconnection = this.configuration["ConnectionStrings:DB"];
             dateformat = this.configuration["Constants:DateFormat"];
         }
-        public List<ProductCategory> GetProductCategories()
+        public List<ProductCategoryModel> GetProductCategories()
         {
-            var productCategories = new List<ProductCategory>();
+            var productCategories = new List<ProductCategoryModel>();
             using (SqlConnection connection = new(dbconnection))
             {
                 SqlCommand command = new()
@@ -31,7 +31,7 @@ namespace E_CommerceAPI.DALRepository
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    var category = new ProductCategory()
+                    var category = new ProductCategoryModel()
                     {
                         Id = (int)reader["Id"],
                         Category = (string)reader["Category"],
@@ -43,9 +43,9 @@ namespace E_CommerceAPI.DALRepository
             return productCategories;
         }
 
-        public ProductCategory GetProductCategory(int id)
+        public ProductCategoryModel GetProductCategory(int id)
         {
-            var productCategory = new ProductCategory();
+            var productCategory = new ProductCategoryModel();
 
             using (SqlConnection connection = new(dbconnection))
             {
@@ -70,9 +70,9 @@ namespace E_CommerceAPI.DALRepository
             return productCategory;
         }
 
-        public Offer GetOffer(int id)
+        public OfferModel GetOffer(int id)
         {
-            var offer = new Offer();
+            var offer = new OfferModel();
             using (SqlConnection connection = new(dbconnection))
             {
                 SqlCommand command = new()
@@ -95,9 +95,9 @@ namespace E_CommerceAPI.DALRepository
             return offer;
         }
 
-        public List<Product> GetProducts(string category, string subcategory, int count)
+        public List<ProductModel> GetProducts(string category, string subcategory, int count)
         {
-            var products = new List<Product>();
+            var products = new List<ProductModel>();
             using (SqlConnection connection = new(dbconnection))
             {
                 SqlCommand command = new()
@@ -114,7 +114,7 @@ namespace E_CommerceAPI.DALRepository
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    var product = new Product()
+                    var product = new ProductModel()
                     {
                         Id = (int)reader["Id"],
                         Title = (string)reader["Title"],
@@ -136,9 +136,9 @@ namespace E_CommerceAPI.DALRepository
             return products;
         }
 
-        public Product GetProduct(int id)
+        public ProductModel GetProduct(int id)
         {
-            var product = new Product();
+            var product = new ProductModel();
             using (SqlConnection connection = new(dbconnection))
             {
                 SqlCommand command = new()
@@ -200,14 +200,14 @@ namespace E_CommerceAPI.DALRepository
                     Connection = connection
                 };
 
-                string query = "SELECT * FROM Users WHERE UserId=" + id + ";";
+                string query = "SELECT * FROM Users WHERE Id=" + id + ";";
                 command.CommandText = query;
 
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    user.Id = (int)reader["UserId"];
+                    user.Id = (int)reader["Id"];
                     user.FirstName = (string)reader["FirstName"];
                     user.LastName = (string)reader["LastName"];
                     user.Email = (string)reader["Email"];
@@ -226,14 +226,14 @@ namespace E_CommerceAPI.DALRepository
             throw new NotImplementedException();
         }
 
-        public CartViewModel GetActiveCartOfUser(int userid)
+        public CartModel GetActiveCartOfUser(int userid)
         {
             throw new NotImplementedException();
         }
 
-        public CartViewModel GetCart(int cartid)
+        public CartModel GetCart(int cartid)
         {
-            var cart = new CartViewModel();
+            var cart = new CartModel();
             using (SqlConnection connection = new(dbconnection))
             {
                 SqlCommand command = new()
@@ -248,16 +248,16 @@ namespace E_CommerceAPI.DALRepository
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    CartItemViewModel item = new()
+                    CartItemModel item = new()
                     {
-                        Id = (int)reader["CartItemId"],
-                        product = GetProduct((int)reader["ProductId"])
+                        Id = (int)reader["Id"],
+                        Product = GetProduct((int)reader["ProductId"])
                     };
                     cart.CartItems.Add(item);
                 }
                 reader.Close();
 
-                query = "SELECT * FROM Carts WHERE CartId=" + cartid + ";";
+                query = "SELECT * FROM Carts WHERE Id=" + cartid + ";";
                 command.CommandText = query;
                 reader = command.ExecuteReader();
                 while (reader.Read())
@@ -272,22 +272,39 @@ namespace E_CommerceAPI.DALRepository
             return cart;
         }
 
-        public List<CartViewModel> GetAllPreviousCartsOfUser(int userid)
+        public List<CartModel> GetAllPreviousCartsOfUser(int userid)
+        {
+            var carts = new List<CartModel>();
+            using (SqlConnection connection = new(dbconnection))
+            {
+                SqlCommand command = new()
+                {
+                    Connection = connection
+                };
+                string query = "SELECT Id FROM Carts WHERE UserId=" + userid + " AND Ordered='true';";
+                command.CommandText = query;
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    var cartid = (int)reader["Id"];
+                    carts.Add(GetCart(cartid));
+                }
+            }
+            return carts;
+        }
+
+        public List<PaymentMethodModel> GetPaymentMethods()
         {
             throw new NotImplementedException();
         }
 
-        public List<PaymentMethod> GetPaymentMethods()
+        public int InsertPayment(PaymentModel payment)
         {
             throw new NotImplementedException();
         }
 
-        public int InsertPayment(Payment payment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int InsertOrder(Order order)
+        public int InsertOrder(OrderModel order)
         {
             throw new NotImplementedException();
         }

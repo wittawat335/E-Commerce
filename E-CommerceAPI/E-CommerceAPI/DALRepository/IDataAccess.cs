@@ -1,26 +1,25 @@
 ﻿using E_CommerceAPI.Models;
-using ECommerce.API.Models;
 
 namespace E_CommerceAPI.DALRepository
 {
     public interface IDataAccess
     {
-        List<ProductCategory> GetProductCategories();
-        ProductCategory GetProductCategory(int id);
-        Offer GetOffer(int id);
-        List<Product> GetProducts(string category, string subcategory, int count);
-        Product GetProduct(int id);
+        List<ProductCategoryModel> GetProductCategories();
+        ProductCategoryModel GetProductCategory(int id);
+        OfferModel GetOffer(int id);
+        List<ProductModel> GetProducts(string category, string subcategory, int count);
+        ProductModel GetProduct(int id);
         bool InsertUser(UserModel user);
         string IsUserPresent(string email, string password);
         void InsertReview(ReviewModel review);
         List<ReviewModel> GetProductReviews(int productId);
         UserModel GetUser(int id);
         bool InsertCartItem(int userId, int productId);
-        CartViewModel GetActiveCartOfUser(int userid);
-        CartViewModel GetCart(int cartid);
-        List<CartViewModel> GetAllPreviousCartsOfUser(int userid);
-        List<PaymentMethod> GetPaymentMethods();
-        int InsertPayment(Payment payment);
-        int InsertOrder(Order order);
+        CartModel GetActiveCartOfUser(int userid);
+        CartModel GetCart(int cartid);
+        List<CartModel> GetAllPreviousCartsOfUser(int userid);
+        List<PaymentMethodModel> GetPaymentMethods();
+        int InsertPayment(PaymentModel payment);
+        int InsertOrder(OrderModel order);
     }
 }

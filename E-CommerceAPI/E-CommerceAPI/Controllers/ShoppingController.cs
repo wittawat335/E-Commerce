@@ -3,7 +3,6 @@ using E_CommerceAPI.DALRepository;
 using E_CommerceAPI.Entities;
 using E_CommerceAPI.Models;
 using E_CommerceAPI.ViewModels;
-using ECommerce.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -83,7 +82,7 @@ namespace E_CommerceAPI.Controllers
         }
 
         [HttpPost("RegisterUser")]
-        public IActionResult RegisterUser([FromBody] User user)
+        public IActionResult RegisterUser([FromBody] Entities.User user)
         {
             user.CreatedAt = DateTime.Now.ToString(DateFormat);
             user.ModifiedAt = DateTime.Now.ToString(DateFormat);
@@ -98,7 +97,7 @@ namespace E_CommerceAPI.Controllers
         }
 
         [HttpPost("LoginUser")]
-        public IActionResult LoginUser([FromBody] UserModel user)
+        public IActionResult LoginUser([FromBody] Models.UserModel user)
         {
             try
             {

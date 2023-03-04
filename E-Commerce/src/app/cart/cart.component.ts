@@ -45,7 +45,6 @@ export class CartComponent implements OnInit {
     this.NavigationService.getActiveCartOfUser(
       this.UtilityService.getUser().id
     ).subscribe((res: any) => {
-      console.log(res);
       this.usersCart = res;
 
       //Calculate Payment
@@ -58,7 +57,7 @@ export class CartComponent implements OnInit {
     this.NavigationService.getAllPreviousCarts(
       this.UtilityService.getUser().id
     ).subscribe((res: any) => {
-      this.usersPreviousCarts = res.CartItem;
+      this.usersPreviousCarts = res;
       console.log(this.usersPreviousCarts);
     });
   }
