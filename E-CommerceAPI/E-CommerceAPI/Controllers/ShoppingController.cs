@@ -313,5 +313,67 @@ namespace E_CommerceAPI.Controllers
             var result = dataAccess.GetAllPreviousCartsOfUser(id);
             return Ok(result);
         }
+
+        [HttpGet("GetPaymentMethods")]
+        public IActionResult GetPaymentMethods()
+        {
+            try
+            {
+                var result = context.PaymentMethods.ToList();
+                return Ok(result);
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+        }
+
+        [HttpPost("InsertPayment")]
+        public IActionResult InsertPayment([FromBody]PaymentModel payment)
+        {
+            try
+            {
+                if (payment != null)
+                {
+                    var model = new Payment();
+                    model.PaymentMethodId = payment.PaymentMethod.Id;
+                    model.UserId = payment.User.Id;
+                    model.TotalAmount = Convert.ToInt32(payment.TotalAmount);
+                    model.ShippingCharges = Convert.ToInt32(payment.ShippingCharges);
+                    model.AmountReduced = Convert.ToInt32(payment.AmountReduced);
+                    model.AmountPaid = Convert.ToInt32(payment.AmountPaid);
+                    model.CreatedAt = DateTime.Now.ToString(DateFormat);
+
+                    context.Payments.Add(model);
+                    context.SaveChanges();
+                }
+                var id = context.Payments.OrderByDescending(x => x.Id).FirstOrDefault(x => x.UserId == payment.User.Id).Id;
+
+                return Ok((id.ToString()));
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+        }
+
+        [HttpPost("InsertOrder")]
+        public IActionResult InsertOrder(OrderModel order)
+        {
+            try
+            {
+                string message = "";
+                var model = new Order();
+                model.UserId = order.User.Id;
+                model.CartId = order.Cart.Id;
+                model.PaymentId = order.Payment.Id;
+                model.CreatedAt = DateTime.Now.ToString(DateFormat);
+                context.Orders.Add(model);
+
+                var cartsUpdate = context.Carts.Find(order.Cart.Id);
+                cartsUpdate.Ordered = "true";
+                cartsUpdate.OrderedOn = DateTime.Now.ToString(DateFormat); 
+
+                context.SaveChanges();
+                message = "invalid";
+
+                return Ok(message);
+            }
+            catch(Exception ex) { return BadRequest(ex);}
+        }
     }
 }
