@@ -9,23 +9,23 @@
         <tbody>
           <tr>
             <td>Total Items</td>
-            <td class="fs-5 fw-bold"> {{usersCart.cartItems.length}} </td>
+            <td class="fs-5 fw-bold"> {{usersCart.cartItems.length | number}} </td>
           </tr>
           <tr>
             <td>Total Price</td>
-            <td class="fs-5 fw-bold text-danger"> {{usersPaymentInfo.totalAmount}} </td>
+            <td class="fs-5 fw-bold text-danger"> {{usersPaymentInfo.totalAmount | number}} บาท</td>
           </tr>
           <tr>
             <td>Shipping Charges</td>
-            <td class="fs-5 fw-bold text-danger">{{usersPaymentInfo.shippingCharges}}</td>
+            <td class="fs-5 fw-bold text-danger">{{usersPaymentInfo.shippingCharges | number}} บาท</td>
           </tr>
           <tr>
             <td>Discount</td>
-            <td class="fs-5 fw-bold text-success">{{usersPaymentInfo.amountReduced}}</td>
+            <td class="fs-5 fw-bold text-success">{{usersPaymentInfo.amountReduced | number}} บาท</td>
           </tr>
           <tr>
             <td>You Have to Pay</td>
-            <td class="fs-5 fw-bold text-success">{{usersPaymentInfo.amountPaid}}</td>
+            <td class="fs-5 fw-bold text-success">{{usersPaymentInfo.amountPaid | number}} บาท</td>
           </tr>
         </tbody>
       </table>

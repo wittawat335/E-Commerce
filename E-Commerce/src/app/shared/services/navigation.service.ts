@@ -1,6 +1,8 @@
+import { Order, Payment } from './../models/payment-and-orders';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
+import { PaymentMethod } from '../models/payment-and-orders';
 import { Category } from '../models/product';
 import { User } from '../models/user';
 
@@ -84,6 +86,34 @@ export class NavigationService {
       Value: review,
     };
     let url = this.baseUrl + 'InsertReview';
+    return this.http.post(url, obj, { responseType: 'text' });
+  }
+
+  //Order && Payment
+  getPaymentMethods() {
+    let url = this.baseUrl + 'GetPaymentMethods';
+    return this.http.get<PaymentMethod[]>(url);
+  }
+  insertPayment(payment: Payment) {
+    return this.http.post(this.baseUrl + 'InsertPayment', payment, {
+      responseType: 'text',
+    });
+  }
+  insertOrder(order: Order) {
+    return this.http.post(this.baseUrl + 'InsertOrder', order);
+  }
+
+  submitReview2() {
+    let obj: any = {
+      User: {
+        Id: 1,
+      },
+      Product: {
+        Id: 1,
+      },
+      Value: 'test',
+    };
+    let url = this.baseUrl + 'InsertPayment';
     return this.http.post(url, obj, { responseType: 'text' });
   }
 }

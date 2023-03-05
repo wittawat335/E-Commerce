@@ -9,5 +9,6 @@ namespace E_CommerceAPI.ViewModels
         public List<CartItemViewModel> CartItems { get; set; } = new();
         public bool Ordered { get; set; }
         public string OrderedOn { get; set; } = string.Empty;
+
     }
 }
