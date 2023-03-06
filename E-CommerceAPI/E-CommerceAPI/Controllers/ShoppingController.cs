@@ -80,6 +80,130 @@ namespace E_CommerceAPI.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
+        [HttpGet("GetActiveCartOfUser/{id}")]
+        public IActionResult GetActiveCartOfUser(int id)
+        {
+            try
+            {
+                var result = new CartViewModel();
+                var count = context.Carts.Count(x => x.UserId == id && x.Ordered == "false");
+                if (count == 0) { return Ok(result); }
+
+                var cartId = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "false").Id;
+                if (cartId != null)
+                {
+                    var user = context.Users.FirstOrDefault(x => x.Id == id);
+                    var listCart = context.CartItems.Where(x => x.CartId == cartId).ToList();
+                    foreach (var item in listCart)
+                    {
+                        var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
+                        var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
+                        var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
+                        var cart = new CartItemViewModel();
+                        cart.product = product;
+                        cart.product.ProductCategory = category;
+                        cart.product.Offer = offer;
+                        result.CartItems.Add(cart);
+                    }
+                    result.Id = cartId;
+                    result.User = user;
+                    result.Ordered = false;
+                    result.OrderedOn = "";
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+        }
+        //[HttpGet("GetAllPreviousCartsOfUser/{id}")]
+        //public IActionResult GetAllPreviousCartsOfUser(int id)
+        //{
+        //    try
+        //    {
+        //        var result = new CartViewModel();
+        //        var resultList = new List<CartViewModel>();
+        //        var cartList = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "true").Id;
+        //        foreach (var m in cartList)
+        //        {
+        //            var cartItemList = context.CartItems.Where(x => x.CartId == m.Id).ToList();
+        //            foreach (var item in cartItemList)
+        //            {
+        //                var cartItem = new CartItemViewModel();
+        //                var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
+        //                var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
+        //                var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
+        //                cartItem.product = product;
+        //                cartItem.product.ProductCategory = category;
+        //                cartItem.product.Offer = offer;
+        //                result.CartItems.Add(cartItem);
+        //            }
+        //            resultList.Add(result);
+        //        }
+        //        return Ok(resultList);
+        //    }
+        //    catch (Exception ex) { return BadRequest(ex); }
+        //}
+        //[HttpGet("GetAllPreviousCartsOfUser/{id}")]
+        //public IActionResult GetAllPreviousCartsOfUser(int id)
+        //{
+        //    try
+        //    {
+        //        var result = new CartViewModel();
+
+        //            var cartIdTrue = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "true").Id;
+
+        //        var cartItemList = context.CartItems.Where(x => x.CartId == cartIdTrue).ToList();
+        //        if (cartItemList.Count > 0)
+        //        {
+        //            foreach (var item in cartItemList)
+        //            {
+        //                var cartItem = new CartItemViewModel();
+        //                var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
+        //                var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
+        //                var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
+        //                cartItem.product = product;
+        //                cartItem.product.ProductCategory = category;
+        //                cartItem.product.Offer = offer;
+        //                result.CartItems.Add(cartItem);
+        //            }
+        //        }
+
+        //        if (cartIdTrue != null)
+        //            result.Id = cartIdTrue;
+        //        var user = context.Users.FirstOrDefault(x => x.Id == id);
+
+        //        if (user != null)
+        //            result.User = user;
+
+        //        var cart = context.Carts.FirstOrDefault(x => x.UserId == id);
+        //        if (cart != null)
+        //        {
+        //            result.Ordered = bool.Parse(cart.Ordered);
+        //            result.OrderedOn = cart.OrderedOn;
+        //        }
+
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex) { return BadRequest(ex); }
+        //}
+
+        [HttpGet("GetAllPreviousCartsOfUser/{id}")]
+        public IActionResult GetAllPreviousCartsOfUser(int id)
+        {
+            var result = dataAccess.GetAllPreviousCartsOfUser(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetPaymentMethods")]
+        public IActionResult GetPaymentMethods()
+        {
+            try
+            {
+                var result = context.PaymentMethods.ToList();
+                return Ok(result);
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+        }
 
         [HttpPost("RegisterUser")]
         public IActionResult RegisterUser([FromBody] Entities.User user)
@@ -195,131 +319,6 @@ namespace E_CommerceAPI.Controllers
                     result = "inserted";
                 }
 
-                return Ok(result);
-            }
-            catch (Exception ex) { return BadRequest(ex); }
-        }
-
-        [HttpGet("GetActiveCartOfUser/{id}")]
-        public IActionResult GetActiveCartOfUser(int id)
-        {
-            try
-            {
-                var result = new CartViewModel();
-                var count = context.Carts.Count(x => x.UserId == id && x.Ordered == "false");
-                if (count == 0) { return Ok(result); }
-
-                var cartId = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "false").Id;
-                if (cartId != null)
-                {
-                    var user = context.Users.FirstOrDefault(x => x.Id == id);
-                    var listCart = context.CartItems.Where(x => x.CartId == cartId).ToList();
-                    foreach (var item in listCart)
-                    {
-                        var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
-                        var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
-                        var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
-                        var cart = new CartItemViewModel();
-                        cart.product = product;
-                        cart.product.ProductCategory = category;
-                        cart.product.Offer = offer;
-                        result.CartItems.Add(cart);
-                    }
-                    result.Id = cartId;
-                    result.User = user;
-                    result.Ordered = false;
-                    result.OrderedOn = "";
-                }
-
-                return Ok(result);
-            }
-            catch (Exception ex) { return BadRequest(ex); }
-        }
-        //[HttpGet("GetAllPreviousCartsOfUser/{id}")]
-        //public IActionResult GetAllPreviousCartsOfUser(int id)
-        //{
-        //    try
-        //    {
-        //        var result = new CartViewModel();
-        //        var resultList = new List<CartViewModel>();
-        //        var cartList = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "true").Id;
-        //        foreach (var m in cartList)
-        //        {
-        //            var cartItemList = context.CartItems.Where(x => x.CartId == m.Id).ToList();
-        //            foreach (var item in cartItemList)
-        //            {
-        //                var cartItem = new CartItemViewModel();
-        //                var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
-        //                var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
-        //                var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
-        //                cartItem.product = product;
-        //                cartItem.product.ProductCategory = category;
-        //                cartItem.product.Offer = offer;
-        //                result.CartItems.Add(cartItem);
-        //            }
-        //            resultList.Add(result);
-        //        }
-        //        return Ok(resultList);
-        //    }
-        //    catch (Exception ex) { return BadRequest(ex); }
-        //}
-        //[HttpGet("GetAllPreviousCartsOfUser/{id}")]
-        //public IActionResult GetAllPreviousCartsOfUser(int id)
-        //{
-        //    try
-        //    {
-        //        var result = new CartViewModel();
-              
-        //            var cartIdTrue = context.Carts.FirstOrDefault(x => x.UserId == id && x.Ordered == "true").Id;
-                
-        //        var cartItemList = context.CartItems.Where(x => x.CartId == cartIdTrue).ToList();
-        //        if (cartItemList.Count > 0)
-        //        {
-        //            foreach (var item in cartItemList)
-        //            {
-        //                var cartItem = new CartItemViewModel();
-        //                var product = context.Products.FirstOrDefault(x => x.Id == item.ProductId);
-        //                var category = context.ProductCategories.FirstOrDefault(x => x.Id == product.CategoryId);
-        //                var offer = context.Offers.FirstOrDefault(x => x.Id == product.OfferId);
-        //                cartItem.product = product;
-        //                cartItem.product.ProductCategory = category;
-        //                cartItem.product.Offer = offer;
-        //                result.CartItems.Add(cartItem);
-        //            }
-        //        }
-
-        //        if (cartIdTrue != null)
-        //            result.Id = cartIdTrue;
-        //        var user = context.Users.FirstOrDefault(x => x.Id == id);
-
-        //        if (user != null)
-        //            result.User = user;
-
-        //        var cart = context.Carts.FirstOrDefault(x => x.UserId == id);
-        //        if (cart != null)
-        //        {
-        //            result.Ordered = bool.Parse(cart.Ordered);
-        //            result.OrderedOn = cart.OrderedOn;
-        //        }
-
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex) { return BadRequest(ex); }
-        //}
-
-        [HttpGet("GetAllPreviousCartsOfUser/{id}")]
-        public IActionResult GetAllPreviousCartsOfUser(int id)
-        {
-            var result = dataAccess.GetAllPreviousCartsOfUser(id);
-            return Ok(result);
-        }
-
-        [HttpGet("GetPaymentMethods")]
-        public IActionResult GetPaymentMethods()
-        {
-            try
-            {
-                var result = context.PaymentMethods.ToList();
                 return Ok(result);
             }
             catch (Exception ex) { return BadRequest(ex); }
