@@ -1,9 +1,12 @@
-﻿using E_CommerceAPI.Common;
+﻿using AutoMapper;
+using Azure;
+using E_CommerceAPI.Common;
 using E_CommerceAPI.DALRepository;
 using E_CommerceAPI.Entities;
 using E_CommerceAPI.Models;
 using E_CommerceAPI.Services.Contract;
 using E_CommerceAPI.Services.Implementation;
+using E_CommerceAPI.Utilities;
 using E_CommerceAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using NuGet.Common;
 using NuGet.Configuration;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -28,25 +32,46 @@ namespace E_CommerceAPI.Controllers
         private readonly string DateFormat;
         private readonly EcommerceContext context;
         private readonly IConfiguration _configuration;
-        private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
         private readonly IDataAccess _dataAccess;
+        private readonly IMapper _mapper;
 
-        public ShoppingController(IDataAccess dataAccess, IConfiguration configuration, IProductService productService, IProductCategoryService productCategoryService)
+        public ShoppingController(IDataAccess dataAccess, IConfiguration configuration, IProductCategoryService productCategoryService, IMapper mapper)
         {
             context = new EcommerceContext();
             _dataAccess = dataAccess;
             _configuration = configuration;
-            _productService = productService;
+            _mapper = mapper;
             _productCategoryService = productCategoryService;
+
             DateFormat = _configuration.GetValue<string>(Constants.AppSettings.DateFormat);
         }
         // GET: api/<ShoppingController>
         [HttpGet("GetCategoryList")]
-        public IActionResult GetCategoryList()
+        public async Task<IActionResult> GetCategoryList()
         {
             //return Ok(dataAccess.GetProductCategories());
-            return Ok(_productCategoryService.GetList());  
+            ReponseApi<List<ProductCategoryViewModel>> _response = new ReponseApi<List<ProductCategoryViewModel>>();
+            try
+            {
+                var model = await _productCategoryService.GetList();
+                if (model.Count > 0)
+                {
+                    var list = _mapper.Map<List<ProductCategoryViewModel>>(model);
+                    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.True, StatusMessage = Constants.StatusMessage.Success, Value = list };
+                }
+                else
+                {
+                    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = Constants.StatusMessage.Faile };
+                }
+
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
         }
 
         [HttpGet("GetProducts")]
@@ -333,7 +358,7 @@ namespace E_CommerceAPI.Controllers
         }
 
         [HttpPost("InsertPayment")]
-        public IActionResult InsertPayment([FromBody]PaymentModel payment)
+        public IActionResult InsertPayment([FromBody] PaymentModel payment)
         {
             try
             {
@@ -373,14 +398,14 @@ namespace E_CommerceAPI.Controllers
 
                 var cartsUpdate = context.Carts.Find(order.Cart.Id);
                 cartsUpdate.Ordered = "true";
-                cartsUpdate.OrderedOn = DateTime.Now.ToString(DateFormat); 
+                cartsUpdate.OrderedOn = DateTime.Now.ToString(DateFormat);
 
                 context.SaveChanges();
                 message = "invalid";
 
                 return Ok(message);
             }
-            catch(Exception ex) { return BadRequest(ex);}
+            catch (Exception ex) { return BadRequest(ex); }
         }
     }
 }

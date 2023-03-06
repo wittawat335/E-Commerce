@@ -11,14 +11,33 @@ namespace E_CommerceAPI.Services.Implementation
         {
             _context = context;
         }
-        public Task<User> Add(User model)
+        public async Task<User> Add(User model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Users.Add(model);
+                await _context.SaveChangesAsync();
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<bool> Delete(User model)
+        public async Task<bool> Delete(User model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Users.Remove(model);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<List<User>> GetList()
@@ -36,14 +55,33 @@ namespace E_CommerceAPI.Services.Implementation
             }
         }
 
-        public Task<User> GetProductById(int id)
+        public async Task<User> GetProductById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                User? user = new User();
+                user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+                return user;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<User> Update(User model)
+        public async Task<User> Update(User model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Users.Update(model);
+                await _context.SaveChangesAsync();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

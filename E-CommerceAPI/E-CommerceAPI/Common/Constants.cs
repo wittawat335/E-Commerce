@@ -15,5 +15,16 @@
             public const string DateFormat = "DateFormat";
 
         }
+
+        public struct StatusMessage
+        {
+            public const string Success = "OK";
+            public const string Faile = "No data";
+        }
+        public struct Status
+        {
+            public const bool True = true;
+            public const bool False = false;
+        }
     }
 }

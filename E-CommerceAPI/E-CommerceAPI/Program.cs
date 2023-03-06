@@ -3,6 +3,7 @@ using E_CommerceAPI.DALRepository;
 using E_CommerceAPI.Entities;
 using E_CommerceAPI.Services.Contract;
 using E_CommerceAPI.Services.Implementation;
+using E_CommerceAPI.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +49,10 @@ builder.Services.AddSingleton<IDataAccess, DataAccess>();
 // Add Service
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 //DBContext
 builder.Services.AddDbContext<EcommerceContext>(options =>
