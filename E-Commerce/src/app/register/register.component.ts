@@ -15,7 +15,7 @@ import { NavigationService } from '../shared/services/navigation.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
-  invaildRPWD: boolean = false;
+  checkPass: boolean = false;
   message = '';
 
   constructor(private fb: FormBuilder, private navService: NavigationService) {}

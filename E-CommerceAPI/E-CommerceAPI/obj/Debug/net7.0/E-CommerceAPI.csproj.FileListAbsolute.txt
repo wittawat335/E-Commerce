@@ -275,3 +275,5 @@ F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\obj\Debug\net7.0\
 F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\obj\Debug\net7.0\E-CommerceAPI.pdb
 F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\obj\Debug\net7.0\E-CommerceAPI.genruntimeconfig.cache
 F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\obj\Debug\net7.0\ref\E-CommerceAPI.dll
+F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\AutoMapper.dll
+F:\Project 2023\Angular\E-Commerce\E-CommerceAPI\E-CommerceAPI\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

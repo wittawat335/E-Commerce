@@ -2,6 +2,8 @@
 using E_CommerceAPI.DALRepository;
 using E_CommerceAPI.Entities;
 using E_CommerceAPI.Models;
+using E_CommerceAPI.Services.Contract;
+using E_CommerceAPI.Services.Implementation;
 using E_CommerceAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,34 +25,40 @@ namespace E_CommerceAPI.Controllers
     [ApiController]
     public class ShoppingController : ControllerBase
     {
-        readonly IDataAccess dataAccess;
         private readonly string DateFormat;
         private readonly EcommerceContext context;
         private readonly IConfiguration _configuration;
-        public ShoppingController(IDataAccess dataAccess, IConfiguration configuration)
+        private readonly IProductService _productService;
+        private readonly IProductCategoryService _productCategoryService;
+        private readonly IDataAccess _dataAccess;
+
+        public ShoppingController(IDataAccess dataAccess, IConfiguration configuration, IProductService productService, IProductCategoryService productCategoryService)
         {
             context = new EcommerceContext();
-            this.dataAccess = dataAccess;
+            _dataAccess = dataAccess;
             _configuration = configuration;
+            _productService = productService;
+            _productCategoryService = productCategoryService;
             DateFormat = _configuration.GetValue<string>(Constants.AppSettings.DateFormat);
         }
         // GET: api/<ShoppingController>
         [HttpGet("GetCategoryList")]
         public IActionResult GetCategoryList()
         {
-            return Ok(dataAccess.GetProductCategories());
+            //return Ok(dataAccess.GetProductCategories());
+            return Ok(_productCategoryService.GetList());  
         }
 
         [HttpGet("GetProducts")]
         public IActionResult GetProducts(string category, string subcategory, int count)
         {
-            return Ok(dataAccess.GetProducts(category, subcategory, count));
+            return Ok(_dataAccess.GetProducts(category, subcategory, count));
         }
 
         [HttpGet("GetProduct/{id}")]
         public IActionResult GetProduct(int id)
         {
-            return Ok(dataAccess.GetProduct(id));
+            return Ok(_dataAccess.GetProduct(id));
         }
         [HttpGet("GetProductReviews/{productId}")]
         public IActionResult GetProductReviews(int productId)
@@ -190,7 +198,7 @@ namespace E_CommerceAPI.Controllers
         [HttpGet("GetAllPreviousCartsOfUser/{id}")]
         public IActionResult GetAllPreviousCartsOfUser(int id)
         {
-            var result = dataAccess.GetAllPreviousCartsOfUser(id);
+            var result = _dataAccess.GetAllPreviousCartsOfUser(id);
             return Ok(result);
         }
 

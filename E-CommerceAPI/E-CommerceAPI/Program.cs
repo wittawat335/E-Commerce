@@ -1,11 +1,15 @@
 using E_CommerceAPI.Common;
 using E_CommerceAPI.DALRepository;
+using E_CommerceAPI.Entities;
+using E_CommerceAPI.Services.Contract;
+using E_CommerceAPI.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString(Constants.AppSettings.ConnectionStringSql);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add CORS
 builder.Services.AddCors(options =>
@@ -38,10 +42,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// Add Using DAL
-builder.Services.AddSingleton<IDataAccess, DataAccess>();
 
-var test = builder.Configuration.GetValue<string>(Constants.AppSettings.JWT_TokenDescriptor_Issuer);
+//Add Dal
+builder.Services.AddSingleton<IDataAccess, DataAccess>();
+// Add Service
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+
+//DBContext
+builder.Services.AddDbContext<EcommerceContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 
