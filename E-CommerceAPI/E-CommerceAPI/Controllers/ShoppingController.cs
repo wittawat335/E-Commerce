@@ -62,7 +62,7 @@ namespace E_CommerceAPI.Controllers
                 }
                 else
                 {
-                    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = Constants.StatusMessage.Faile };
+                    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = Constants.StatusMessage.No_Data };
                 }
 
                 return StatusCode(StatusCodes.Status200OK, _response);

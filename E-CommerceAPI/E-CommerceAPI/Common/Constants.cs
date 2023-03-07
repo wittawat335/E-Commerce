@@ -19,7 +19,9 @@
         public struct StatusMessage
         {
             public const string Success = "OK";
-            public const string Faile = "No data";
+            public const string No_Data = "No Data";
+            public const string Could_Not_Create = "Could not create";
+            public const string No_Delete = "No Deleted";
         }
         public struct Status
         {
