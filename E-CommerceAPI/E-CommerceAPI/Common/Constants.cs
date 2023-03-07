@@ -5,15 +5,16 @@
         public struct AppSettings
         {
             //Connection DB
-            public const string ConnectionStringSql = "ConnectionStrings:DB";
+            public const string ConnectionStringSql = "AppSetting:ConnectionStrings:DB";
             //JWT
-            public const string JWT_Secret = "JWT:Secret";
-            public const string JWT_ExpireTime = "JWT:ExpireTime";
-            public const string JWT_TokenDescriptor_Issuer = "JWT:TokenDescriptor:Issuer";
-            public const string JWT_TokenDescriptor_Audience = "JWT:TokenDescriptor:Audience";
+            public const string JWT_Secret = "AppSetting:JWT:Secret";
+            public const string JWT_ExpireTime = "AppSetting:JWT:ExpireTime";
+            public const string JWT_TokenDescriptor_Issuer = "AppSetting:JWT:TokenDescriptor:Issuer";
+            public const string JWT_TokenDescriptor_Audience = "AppSetting:JWT:TokenDescriptor:Audience";
             //DateFormat
-            public const string DateFormat = "DateFormat";
-
+            public const string DateFormat = "AppSetting:DateFormat";
+            //Port Url
+            public const string Client_URL = "AppSetting:Client_URL";
         }
 
         public struct StatusMessage

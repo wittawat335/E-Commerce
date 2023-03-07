@@ -59,22 +59,40 @@ namespace E_CommerceAPI.Controllers
         }
 
         // GET: api/Users/5
-        //    [HttpGet("{id}")]
-        //    public async Task<ActionResult<User>> GetUser(int id)
-        //    {
-        //      if (_context.Users == null)
-        //      {
-        //          return NotFound();
-        //      }
-        //        var user = await _context.Users.FindAsync(id);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(int id)
+        {
+            var _response = new ReponseApi<UserViewModel>();
+            try
+            {
+                var model = await _userService.GetProductById(id);
+                var user = _mapper.Map<UserViewModel>(model);
+                if(user != null)
+                {
+                    _response = new ReponseApi<UserViewModel>()
+                    {
+                        Status = Constants.Status.True,
+                        StatusMessage = Constants.StatusMessage.Success,
+                        Value = user
+                    };
+                }
+                else
+                {
+                    _response = new ReponseApi<UserViewModel>()
+                    {
+                        Status = Constants.Status.False,
+                        StatusMessage = Constants.StatusMessage.No_Delete
+                    };
+                }
 
-        //        if (user == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return user;
-        //    }
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new ReponseApi<UserViewModel> { Status = Constants.Status.False, StatusMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
+        }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
