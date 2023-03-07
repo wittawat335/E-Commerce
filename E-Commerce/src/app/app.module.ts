@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CartComponent } from './cart/cart.component';
@@ -17,10 +16,35 @@ import { RegisterComponent } from './register/register.component';
 import { SuggestedProductsComponent } from './suggested-products/suggested-products.component';
 import { OpenProductDetailsDirective } from './shared/directives/open-product-details.directive';
 import { OpenProductsDirective } from './shared/directives/open-products.directive';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+/* work with Reactive Forms */
+import { ReactiveFormsModule } from '@angular/forms';
+/* work with http Requests  */
+import { HttpClientModule } from '@angular/common/http';
+
+/* By "ng add @angular/material" && npm i moment --s && npm i @angular/material-moment-adapter*/
+/* work with material table */
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+/* work with form controls */
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+/* work with alerts */
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+/* work with icons */
+import { MatIconModule } from '@angular/material/icon';
+/* work with Modals */
+import { MatDialogModule } from '@angular/material/dialog';
+/* work with Grid */
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -46,6 +70,19 @@ import { JwtModule } from '@auth0/angular-jwt';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MomentDateModule,
+    MatSnackBarModule,
+    MatIconModule,
+    MatDialogModule,
+    MatGridListModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -54,6 +91,7 @@ import { JwtModule } from '@auth0/angular-jwt';
         allowedDomains: ['localhost:5121'],
       },
     }),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

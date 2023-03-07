@@ -5,17 +5,20 @@ import { map } from 'rxjs';
 import { PaymentMethod } from '../models/payment-and-orders';
 import { Category } from '../models/product';
 import { User } from '../models/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationService {
-  baseUrl = 'http://localhost:5121/api/Shopping/';
+  private endpoint: string = environment.endpoint;
+  private apiUrl: string = this.endpoint + 'api/Shopping/';
+  // baseUrl = 'http://localhost:5121/api/Shopping/';
 
   constructor(private http: HttpClient) {}
 
   getCategoryList() {
-    let url = this.baseUrl + 'GetCategoryList';
+    let url = this.apiUrl + 'GetCategoryList';
     return this.http.get<any[]>(url).pipe(
       map((categories) =>
         categories.map((category) => {
@@ -31,18 +34,18 @@ export class NavigationService {
   }
 
   registerUser(user: User) {
-    let url = this.baseUrl + 'RegisterUser';
+    let url = this.apiUrl + 'RegisterUser';
     return this.http.post(url, user, { responseType: 'text' });
   }
 
   loginUser(email: string, password: string) {
     var body = { email, password };
-    let url = this.baseUrl + 'LoginUser';
+    let url = this.apiUrl + 'LoginUser';
     return this.http.post(url, body, { responseType: 'text' });
   }
 
   getProducts(category: string, subCategory: string, count: number) {
-    return this.http.get<any[]>(this.baseUrl + 'GetProducts', {
+    return this.http.get<any[]>(this.apiUrl + 'GetProducts', {
       params: new HttpParams()
         .set('category', category)
         .set('subCategory', subCategory)
@@ -51,27 +54,27 @@ export class NavigationService {
   }
 
   getProduct(id: number) {
-    let url = this.baseUrl + 'GetProduct/' + id;
+    let url = this.apiUrl + 'GetProduct/' + id;
     return this.http.get(url);
   }
 
   getActiveCartOfUser(userId: number) {
-    let url = this.baseUrl + 'GetActiveCartOfUser/' + userId;
+    let url = this.apiUrl + 'GetActiveCartOfUser/' + userId;
     return this.http.get(url);
   }
 
   getAllReviewsOfProduct(productId: number) {
-    let url = this.baseUrl + 'GetProductReviews/' + productId;
+    let url = this.apiUrl + 'GetProductReviews/' + productId;
     return this.http.get(url);
   }
 
   getAllPreviousCarts(userId: number) {
-    let url = this.baseUrl + 'GetAllPreviousCartsOfUser/' + userId;
+    let url = this.apiUrl + 'GetAllPreviousCartsOfUser/' + userId;
     return this.http.get(url);
   }
 
   addToCart(userId: number, productId: number) {
-    let url = this.baseUrl + 'InsertCartItem/' + userId + '/' + productId;
+    let url = this.apiUrl + 'InsertCartItem/' + userId + '/' + productId;
     return this.http.post(url, null, { responseType: 'text' });
   }
 
@@ -85,22 +88,22 @@ export class NavigationService {
       },
       Value: review,
     };
-    let url = this.baseUrl + 'InsertReview';
+    let url = this.apiUrl + 'InsertReview';
     return this.http.post(url, obj, { responseType: 'text' });
   }
 
   //Order && Payment
   getPaymentMethods() {
-    let url = this.baseUrl + 'GetPaymentMethods';
+    let url = this.apiUrl + 'GetPaymentMethods';
     return this.http.get<PaymentMethod[]>(url);
   }
   insertPayment(payment: Payment) {
-    return this.http.post(this.baseUrl + 'InsertPayment', payment, {
+    return this.http.post(this.apiUrl + 'InsertPayment', payment, {
       responseType: 'text',
     });
   }
   insertOrder(order: Order) {
-    return this.http.post(this.baseUrl + 'InsertOrder', order);
+    return this.http.post(this.apiUrl + 'InsertOrder', order);
   }
 
   submitReview2() {
@@ -113,7 +116,7 @@ export class NavigationService {
       },
       Value: 'test',
     };
-    let url = this.baseUrl + 'InsertPayment';
+    let url = this.apiUrl + 'InsertPayment';
     return this.http.post(url, obj, { responseType: 'text' });
   }
 }
