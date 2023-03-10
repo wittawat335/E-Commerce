@@ -11,6 +11,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString(Constants.AppSettings.ConnectionStringSql);
+var test = builder.Configuration.GetValue<string>(Constants.AppSettings.ConnectionStringSql);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add CORS
 builder.Services.AddCors(options =>
@@ -57,7 +58,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 //DBContext
 builder.Services.AddDbContext<EcommerceContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(test);
 });
 
 var app = builder.Build();

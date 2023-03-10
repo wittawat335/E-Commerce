@@ -1,6 +1,7 @@
 import { NavigationService } from './../shared/services/navigation.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Category, Product } from '../shared/models/product';
+import { ResponseApi } from '../shared/Interfaces/response-api';
 
 @Component({
   selector: 'app-suggested-products',
@@ -18,6 +19,10 @@ export class SuggestedProductsComponent implements OnInit {
 
   constructor(private navService: NavigationService) {}
   ngOnInit(): void {
+    this.getProduct();
+  }
+
+  getProduct() {
     this.navService
       .getProducts(
         this.category.category,

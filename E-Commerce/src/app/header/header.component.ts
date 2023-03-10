@@ -33,7 +33,25 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get Category List
+    this.getCategoryList();
+    // Cart
+    if (this.UtilityService.isLoggedIn()) {
+      this.NavigationService.getActiveCartOfUser(
+        this.UtilityService.getUser().id
+      ).subscribe((res: any) => {
+        this.cartItems = res.cartItems.length;
+      });
+    }
+    this.UtilityService.changeCart.subscribe((res: any) => {
+      if (parseInt(res) === 0) {
+        this.cartItems = 0;
+      } else {
+        this.cartItems += parseInt(res);
+      }
+    });
+  }
+
+  getCategoryList() {
     this.NavigationService.getCategoryList().subscribe((list: Category[]) => {
       for (let item of list) {
         let present = false;
@@ -49,21 +67,6 @@ export class HeaderComponent implements OnInit {
             subcategories: [item.subCategory],
           });
         }
-      }
-    });
-    // Cart
-    if (this.UtilityService.isLoggedIn()) {
-      this.NavigationService.getActiveCartOfUser(
-        this.UtilityService.getUser().id
-      ).subscribe((res: any) => {
-        this.cartItems = res.cartItems.length;
-      });
-    }
-    this.UtilityService.changeCart.subscribe((res: any) => {
-      if (parseInt(res) === 0) {
-        this.cartItems = 0;
-      } else {
-        this.cartItems += parseInt(res);
       }
     });
   }

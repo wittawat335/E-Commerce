@@ -50,28 +50,28 @@ namespace E_CommerceAPI.Controllers
         [HttpGet("GetCategoryList")]
         public async Task<IActionResult> GetCategoryList()
         {
-            //return Ok(dataAccess.GetProductCategories());
-            ReponseApi<List<ProductCategoryViewModel>> _response = new ReponseApi<List<ProductCategoryViewModel>>();
-            try
-            {
-                var model = await _productCategoryService.GetList();
-                if (model.Count > 0)
-                {
-                    var list = _mapper.Map<List<ProductCategoryViewModel>>(model);
-                    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.True, StatusMessage = Constants.StatusMessage.Success, Value = list };
-                }
-                else
-                {
-                    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = Constants.StatusMessage.No_Data };
-                }
+            return Ok(_dataAccess.GetProductCategories());
+            //ReponseApi<List<ProductCategoryViewModel>> _response = new ReponseApi<List<ProductCategoryViewModel>>();
+            //try
+            //{
+            //    var model = await _productCategoryService.GetList();
+            //    if (model.Count > 0)
+            //    {
+            //        var list = _mapper.Map<List<ProductCategoryViewModel>>(model);
+            //        _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.True, StatusMessage = Constants.StatusMessage.Success, Value = list };
+            //    }
+            //    else
+            //    {
+            //        _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = Constants.StatusMessage.No_Data };
+            //    }
 
-                return StatusCode(StatusCodes.Status200OK, _response);
-            }
-            catch (Exception ex)
-            {
-                _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = ex.Message };
-                return StatusCode(StatusCodes.Status500InternalServerError, _response);
-            }
+            //    return StatusCode(StatusCodes.Status200OK, _response);
+            //}
+            //catch (Exception ex)
+            //{
+            //    _response = new ReponseApi<List<ProductCategoryViewModel>> { Status = Constants.Status.False, StatusMessage = ex.Message };
+            //    return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            //}
         }
 
         [HttpGet("GetProducts")]
@@ -282,6 +282,8 @@ namespace E_CommerceAPI.Controllers
                             new Claim("address", query.Address),
                             new Claim("mobile", query.Mobile),
                             new Claim("email", query.Email),
+                            new Claim("role", query.Role),
+                            new Claim("status", query.Status),
                             new Claim("createdAt", query.CreatedAt),
                             new Claim("modifiedAt", query.ModifiedAt)
                         }),
