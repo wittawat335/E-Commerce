@@ -214,7 +214,7 @@ namespace E_CommerceAPI.DALRepository
                     user.Address = (string)reader["Address"];
                     user.Mobile = (string)reader["Mobile"];
                     user.Password = (string)reader["Password"];
-                    user.Role = (string)reader["Role"];
+                    user.Role = (int)reader["Role"];
                     user.Status = (string)reader["Status"];
                     user.CreatedAt = (string)reader["CreatedAt"];
                     user.ModifiedAt = (string)reader["ModifiedAt"];

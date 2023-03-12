@@ -130,6 +130,9 @@ public partial class EcommerceContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.Mobile).HasMaxLength(15);
             entity.Property(e => e.Password).HasMaxLength(50);
+
+            entity.Property(e => e.Role).HasMaxLength(15);
+
             entity.Property(e => e.Status).HasMaxLength(10);
         });
 
