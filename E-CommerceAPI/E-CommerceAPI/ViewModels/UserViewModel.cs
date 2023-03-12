@@ -17,7 +17,7 @@ namespace E_CommerceAPI.ViewModels
         public string Mobile { get; set; } = null!;
 
         public string Password { get; set; } = null!;
-        public string Role { get; set; } = null!;
+        public int Role { get; set; }
         public string Status { get; set; } = null!;
 
         public string CreatedAt { get; set; } = null!;

@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.dialog
       .open(DialogComponent, {
         disableClose: true,
-        width: '50%',
+        width: '400px',
       })
       .afterClosed()
       .subscribe((result) => {

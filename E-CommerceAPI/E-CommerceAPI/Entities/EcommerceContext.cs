@@ -19,6 +19,8 @@ public partial class EcommerceContext : DbContext
 
     public virtual DbSet<CartItem> CartItems { get; set; }
 
+    public virtual DbSet<Department> Departments { get; set; }
+
     public virtual DbSet<Offer> Offers { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -44,6 +46,13 @@ public partial class EcommerceContext : DbContext
         modelBuilder.Entity<Cart>(entity =>
         {
             entity.Property(e => e.Ordered).HasMaxLength(10);
+        });
+
+        modelBuilder.Entity<Department>(entity =>
+        {
+            entity.ToTable("Department");
+
+            entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -121,7 +130,6 @@ public partial class EcommerceContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.Mobile).HasMaxLength(15);
             entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Role).HasMaxLength(15);
             entity.Property(e => e.Status).HasMaxLength(10);
         });
 

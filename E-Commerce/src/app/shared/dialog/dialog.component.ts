@@ -1,13 +1,20 @@
+import { Department } from './../models/department';
 import { UserService } from './../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, Inject, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { ThisReceiver } from '@angular/compiler';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { User } from '../models/user';
+import { DepartmentService } from '../services/department.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -32,6 +39,9 @@ export class DialogComponent implements OnInit {
   action: string = 'Add';
   actionButton: string = 'Save';
   list: User[] = [];
+  listDepartment: Department[] = [];
+  //createdAt = new FormControl(new Date());
+  //modifiedAt = new FormControl(new Date());
 
   constructor(
     private dialog: MatDialogRef<DialogComponent>,
@@ -39,7 +49,8 @@ export class DialogComponent implements OnInit {
     public userData: User,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private userService: UserService
+    private userService: UserService,
+    private departmentService: DepartmentService
   ) {
     this.formUser = this.fb.group({
       firstName: [
@@ -68,6 +79,7 @@ export class DialogComponent implements OnInit {
           Validators.maxLength(10),
         ],
       ],
+      idDepartment: ['', Validators.required],
       password: [
         '',
         [
@@ -76,19 +88,30 @@ export class DialogComponent implements OnInit {
           Validators.maxLength(15),
         ],
       ],
-      createdAt: [Validators.required],
-      modifiedAt: [Validators.required],
+      createdAt: ['', Validators.required],
+      modifiedAt: ['', Validators.required],
     });
 
-    this.userService.getList().subscribe({
+    // this.userService.getList().subscribe({
+    //   next: (data) => {
+    //     if (data.status) this.list = data.value;
+    //   },
+    //   error: (e) => {},
+    // });
+  }
+
+  ngOnInit(): void {
+    this.getDepartment();
+  }
+
+  getDepartment() {
+    this.departmentService.getList().subscribe({
       next: (data) => {
-        if (data.status) this.list = data.value;
+        if (data.status) this.listDepartment = data.value;
       },
       error: (e) => {},
     });
   }
-
-  ngOnInit(): void {}
 
   showAlert(msg: string, title: string) {
     this.snackBar.open(msg, title, {
@@ -107,12 +130,12 @@ export class DialogComponent implements OnInit {
       address: this.formUser.value.address,
       mobile: this.formUser.value.mobile,
       password: this.formUser.value.password,
-      role: this.formUser.value.role,
-      status: this.formUser.value.status,
+      role: this.formUser.value.idDepartment,
+      status: 'A',
       createdAt: moment(this.formUser.value.createdAt).format('DD/MM/YYYY'),
       modifiedAt: moment(this.formUser.value.modifiedAt).format('DD/MM/YYYY'),
     };
-
+    console.log(model);
     this.userService.add(model).subscribe({
       next: (data) => {
         if (data.status) {

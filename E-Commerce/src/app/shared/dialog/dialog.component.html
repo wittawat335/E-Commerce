@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>{{action}} User</h2>
 <mat-dialog-content>
   <form [formGroup]="formUser">
-    <mat-grid-list cols="1" rowHeight="120px">
+    <mat-grid-list cols="1" rowHeight="105px">
 
       <mat-grid-tile>
         <mat-form-field appearance="outline">
@@ -45,8 +45,20 @@
 
       <mat-grid-tile>
         <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="idDepartment">
+            <mat-option *ngFor="let item of listDepartment" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
           <mat-label>Enter your password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'">
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

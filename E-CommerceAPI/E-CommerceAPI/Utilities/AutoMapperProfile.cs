@@ -15,11 +15,12 @@ namespace E_CommerceAPI.Utilities
             #region User
             CreateMap<User, UserViewModel>();
             #endregion
+            CreateMap<Department, DepartmentViewModel>();
             //#region Product
             //CreateMap<Product, ProductDTO>().ForAllMembers(destiny => destiny.);
             //#endregion
             CreateMap<UserViewModel, User>();
-            CreateMap<ProductCategoryViewModel, ProductCategory>();
+            //CreateMap<ProductCategoryViewModel, ProductCategory>();
         }
     }
 }

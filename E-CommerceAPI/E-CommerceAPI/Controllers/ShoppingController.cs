@@ -282,7 +282,7 @@ namespace E_CommerceAPI.Controllers
                             new Claim("address", query.Address),
                             new Claim("mobile", query.Mobile),
                             new Claim("email", query.Email),
-                            new Claim("role", query.Role),
+                            new Claim("role", query.Role.ToString()),
                             new Claim("status", query.Status),
                             new Claim("createdAt", query.CreatedAt),
                             new Claim("modifiedAt", query.ModifiedAt)
