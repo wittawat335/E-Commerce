@@ -5,7 +5,7 @@
         public struct AppSettings
         {
             //Connection DB
-            public const string ConnectionStringSql = "AppSetting:ConnectionStrings:DB";
+            public const string ConnectionStringSql = "DB";
             //JWT
             public const string JWT_Secret = "AppSetting:JWT:Secret";
             public const string JWT_ExpireTime = "AppSetting:JWT:ExpireTime";

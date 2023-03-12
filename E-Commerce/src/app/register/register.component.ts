@@ -62,6 +62,8 @@ export class RegisterComponent implements OnInit {
       address: this.Address.value,
       mobile: this.Mobile.value,
       password: this.PWD.value,
+      role: 'Customer',
+      status: 'A',
       createdAt: '',
       modifiedAt: '',
     };

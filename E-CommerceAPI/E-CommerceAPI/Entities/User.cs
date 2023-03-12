@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace E_CommerceAPI.Entities;
 
@@ -20,13 +19,17 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
+    public string Role { get; set; } = null!;
+
+    public string Status { get; set; } = null!;
+
     public string CreatedAt { get; set; } = null!;
 
     public string ModifiedAt { get; set; } = null!;
-    [JsonIgnore]
+
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
-    [JsonIgnore]
+
     public virtual ICollection<Payment> Payments { get; } = new List<Payment>();
-    [JsonIgnore]
+
     public virtual ICollection<Review> Reviews { get; } = new List<Review>();
 }

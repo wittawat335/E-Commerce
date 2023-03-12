@@ -33,6 +33,8 @@ export class UtilityService {
       mobile: token.mobile,
       email: token.email,
       password: '',
+      role: token.role,
+      status: token.status,
       createdAt: token.createdAt,
       modifiedAt: token.modifiedAt,
     };
