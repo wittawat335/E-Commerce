@@ -1,5 +1,3 @@
-import { Department } from './../models/department';
-import { UserService } from './../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, Inject, OnInit } from '@angular/core';
 import * as moment from 'moment';
@@ -13,8 +11,10 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { User } from '../models/user';
-import { DepartmentService } from '../services/department.service';
+import { User } from 'src/app/shared/models/user';
+import { DepartmentService } from 'src/app/shared/services/department.service';
+import { Department } from 'src/app/shared/models/department';
+import { UserService } from 'src/app/shared/services/user.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -27,13 +27,14 @@ export const MY_DATE_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css'],
+  selector: 'app-add-edit',
+  templateUrl: './add-edit.component.html',
+  styleUrls: ['./add-edit.component.css'],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
-export class DialogComponent implements OnInit {
+export class AddEditComponent implements OnInit {
   hide = true;
   formUser: FormGroup;
   action: string = 'Add';
@@ -44,7 +45,7 @@ export class DialogComponent implements OnInit {
   //modifiedAt = new FormControl(new Date());
 
   constructor(
-    private dialog: MatDialogRef<DialogComponent>,
+    private dialog: MatDialogRef<AddEditComponent>,
     @Inject(MAT_DIALOG_DATA)
     public userData: User,
     private fb: FormBuilder,

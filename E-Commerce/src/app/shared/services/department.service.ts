@@ -15,4 +15,8 @@ export class DepartmentService {
   getList(): Observable<ResponseApi> {
     return this.http.get<ResponseApi>(this.apiUrl);
   }
+
+  getNameById(id: number): Observable<ResponseApi> {
+    return this.http.get<ResponseApi>(`${this.apiUrl}/${id}`);
+  }
 }

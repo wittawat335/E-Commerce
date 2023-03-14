@@ -1,4 +1,3 @@
-import { DialogComponent } from './../../shared/dialog/dialog.component';
 import { UserService } from './../../shared/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
@@ -6,6 +5,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/shared/models/user';
+import { AddEditComponent } from './dialog/add-edit/add-edit.component';
+import { DeleteComponent } from './dialog/delete/delete.component';
 
 @Component({
   selector: 'app-users',
@@ -30,7 +31,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
   constructor(
     private snackbar: MatSnackBar,
     private UserService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   applyFilter(event: Event) {
@@ -57,7 +59,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
   addNewUser() {
     this.dialog
-      .open(DialogComponent, {
+      .open(AddEditComponent, {
         disableClose: true,
         width: '400px',
       })
@@ -67,5 +69,63 @@ export class UsersComponent implements OnInit, AfterViewInit {
           this.show();
         }
       });
+  }
+
+  viewUser(user: User) {
+    this.dialog
+      .open(AddEditComponent, {
+        disableClose: false,
+        data: user,
+        width: '400px',
+      })
+      .afterClosed();
+  }
+
+  editUser(user: User) {
+    this.dialog
+      .open(AddEditComponent, {
+        disableClose: true,
+        data: user,
+        width: '400px',
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'Updated') {
+          this.show();
+        }
+      });
+  }
+
+  deleteUser(user: User) {
+    this.dialog
+      .open(DeleteComponent, {
+        disableClose: true,
+        data: user,
+        width: '400px',
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'delete') {
+          this.UserService.delete(user.id).subscribe({
+            next: (data) => {
+              if (data.status) {
+                this.showAlert('deleted', 'success');
+                this.show();
+              } else {
+                this.showAlert('Error', 'error');
+              }
+            },
+            error(err) {},
+          });
+        }
+      });
+  }
+
+  showAlert(msg: string, title: string) {
+    this.snackBar.open(msg, title, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

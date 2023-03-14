@@ -37,9 +37,19 @@ namespace E_CommerceAPI.Services.Implementation
             }
         }
 
-        public Task<Department> GetProductById(int id)
+        public async Task<Department> GetDepartmentById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Department? model = new Department();
+                model = await _context.Departments.FirstOrDefaultAsync(x => x.Id == id);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Task<Department> Update(Department model)

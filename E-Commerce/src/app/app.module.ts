@@ -48,6 +48,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './masters/users/users.component';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { GetStatusNamePipe } from './shared/pipes/get-status-name.pipe';
+import { GetDepartmentNamePipe } from './shared/pipes/get-department-name.pipe';
+import { DeleteComponent } from './masters/users/dialog/delete/delete.component';
+import { AddEditComponent } from './masters/users/dialog/add-edit/add-edit.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,9 @@ import { GetStatusNamePipe } from './shared/pipes/get-status-name.pipe';
     UsersComponent,
     DialogComponent,
     GetStatusNamePipe,
+    GetDepartmentNamePipe,
+    DeleteComponent,
+    AddEditComponent,
   ],
   imports: [
     BrowserModule,

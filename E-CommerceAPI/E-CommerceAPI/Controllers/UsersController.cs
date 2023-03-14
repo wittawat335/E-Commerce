@@ -95,7 +95,7 @@ namespace E_CommerceAPI.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> PutUser(UserViewModel user)
         {
             var _response = new ReponseApi<UserViewModel>();

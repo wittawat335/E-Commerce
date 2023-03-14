@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'getStatusName',
 })
 export class GetStatusNamePipe implements PipeTransform {
-  transform(value: string): string {
+  transform(value: any): any {
     if (value == 'A') {
       return 'Active';
     } else {

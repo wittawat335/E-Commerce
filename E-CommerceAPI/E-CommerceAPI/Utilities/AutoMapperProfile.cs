@@ -19,6 +19,7 @@ namespace E_CommerceAPI.Utilities
             //#region Product
             //CreateMap<Product, ProductDTO>().ForAllMembers(destiny => destiny.);
             //#endregion
+            CreateMap<DepartmentViewModel, Department>();
             CreateMap<UserViewModel, User>();
             //CreateMap<ProductCategoryViewModel, ProductCategory>();
         }

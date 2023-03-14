@@ -1,0 +1,96 @@
+<h2 mat-dialog-title>{{action}} User</h2>
+<mat-dialog-content>
+  <form [formGroup]="formUser">
+    <mat-grid-list cols="1" rowHeight="105px">
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>first Name</mat-label>
+          <input matInput autocomplete="off" formControlName="firstName" />
+          <mat-icon matSuffix> email</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput autocomplete="off" formControlName="lastName" />
+          <mat-icon matSuffix> email</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput autocomplete="off" formControlName="email" />
+          <mat-icon matSuffix> email</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <textarea matInput autocomplete="off" formControlName="address"></textarea>
+          <mat-icon matSuffix> email</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Mobile</mat-label>
+          <input matInput autocomplete="off" formControlName="mobile" />
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="idDepartment">
+            <mat-option *ngFor="let item of listDepartment" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>createdAt</mat-label>
+          <input matInput [matDatepicker]="picker" autocomplete="off" formControlName="createdAt" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>modifiedAt</mat-label>
+          <input matInput [matDatepicker]="picker2" autocomplete="off" formControlName="modifiedAt" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="formUser.invalid" (click)="addEdit()">
+    {{actionButton}}
+  </button>
+</mat-dialog-actions>

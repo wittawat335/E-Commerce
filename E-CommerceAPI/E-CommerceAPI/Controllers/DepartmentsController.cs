@@ -66,23 +66,41 @@ namespace E_CommerceAPI.Controllers
             }
         }
 
-        //// GET: api/Departments/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Department>> GetDepartment(int id)
-        //{
-        //  if (_context.Departments == null)
-        //  {
-        //      return NotFound();
-        //  }
-        //    var department = await _context.Departments.FindAsync(id);
+        // GET: api/Departments/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDepartment(int id)
+        {
+            var _response = new ReponseApi<DepartmentViewModel>();
+            try
+            {
+                var model = await _departmentService.GetDepartmentById(id);
+                if (model !=  null)
+                {
+                    var list = _mapper.Map<DepartmentViewModel>(model);
+                    _response = new ReponseApi<DepartmentViewModel>
+                    {
+                        Status = Constants.Status.True,
+                        StatusMessage = Constants.StatusMessage.Success,
+                        Value = list
+                    };
+                }
+                else
+                {
+                    _response = new ReponseApi<DepartmentViewModel>
+                    {
+                        Status = Constants.Status.False,
+                        StatusMessage = Constants.StatusMessage.No_Data
+                    };
+                }
 
-        //    if (department == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return department;
-        //}
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new ReponseApi<DepartmentViewModel> { Status = Constants.Status.False, StatusMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
+        }
 
         //// PUT: api/Departments/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
